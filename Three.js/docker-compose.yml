@@ -1,0 +1,14 @@
+version: "3.7"  # optional since v1.27.0
+services:
+  electrosfi-3d-interface:
+    image: electrosfi-3d-interface
+    restart: always
+    container_name: electrosfi-3d-interface
+    build: .
+    ports:
+      - "3030:3030"
+    environment:
+      - PORT=3030
+      # - VUE_APP_API_URL="http://localhost:8000"
+    volumes:
+      - "./resources/nginx.conf:/etc/nginx/nginx.conf"

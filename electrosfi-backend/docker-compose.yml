@@ -1,0 +1,27 @@
+version: "3.7"  # optional since v1.27.0
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=root
+      - ME_CONFIG_MONGODB_URL=mongodb://root:root@mongo:27017/
+  api:
+    image: electrosfi-backend-prod:latest
+    restart: always
+    container_name: electrosfi-backend-prod
+    build: .
+    ports:
+      - "5002:3000"
+    environment:
+      - PORT=3000
+      - DB_CONNECTION=mongodb://root:root@mongo:27017/

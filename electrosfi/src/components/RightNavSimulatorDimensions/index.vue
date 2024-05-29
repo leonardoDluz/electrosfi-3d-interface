@@ -1,0 +1,107 @@
+<template>
+  <v-expansion-panel
+    v-if="typeof geometryData !== 'undefined' && geometryData.class === 'geometry'"
+    class="dimensionsGeometry"
+  >
+    <v-expansion-panel-header>Dimensions</v-expansion-panel-header>
+    <v-expansion-panel-content>
+      <section class="item-body">
+        <v-col>
+          <v-row dense>
+            <v-col
+              v-if="geometryData.shape === 'sphere' || geometryData.class === 'source'"
+              cols="6"
+            >
+              <v-text-field
+                v-model="contentGeometrRadius"
+                outlined
+                dense
+                label="Radius"
+                color="primary"
+                type="number"
+              />
+            </v-col>
+            <v-col
+              v-if="geometryData.class !== 'source'"
+              cols="6"
+            >
+              <v-text-field
+                v-model="contentGeometrWidth"
+                outlined
+                dense
+                label="Width"
+                color="primary"
+                type="number"
+              />
+            </v-col>
+            <v-col
+              v-if="geometryData.class !== 'source'"
+              cols="6"
+            >
+              <v-text-field
+                v-model="contentGeometrHeight"
+                outlined
+                dense
+                label="Height"
+                color="primary"
+                type="number"
+              />
+            </v-col>
+            <!-- <v-col cols="12" v-if="geometryData.class !== 'source'">
+              <v-switch
+                class="mt-0 pt-0"
+                color="primary"
+                dense
+                label="Vincular altura e largura"
+                value="red"
+                hide-details
+              ></v-switch>
+            </v-col> -->
+          </v-row>
+        </v-col>
+      </section>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+export default {
+  name: "GeometryProperties",
+  mounted(){
+  },
+  computed: {
+    ...mapGetters("simulator", ["geometryData", "dimensions"]),
+    contentGeometrRadius: {
+      get() {
+        return Number(this.geometryData.radius.toFixed(3));
+      },
+      set(value) {
+        this.setCurrentGeometryRadius(Number(value));
+      },
+    },
+    contentGeometrWidth: {
+      get() {
+        return Number(this.geometryData.width.toFixed(3)) / this.dimensions.relationship.x;
+      },
+      set(value) {
+        this.setCurrentGeometrySizeWidth(Number(value * this.dimensions.relationship.y));
+      },
+    },
+    contentGeometrHeight: {
+      get() {
+        return Number(this.geometryData.height.toFixed(3)) / this.dimensions.relationship.y;
+      },
+      set(value) {
+        this.setCurrentGeometrySizeHeight(Number(value * this.dimensions.relationship.y)) ;
+      },
+    },
+  },
+  methods: {
+    ...mapActions("simulator", [
+      "setCurrentGeometryRadius",
+      "setCurrentGeometrySizeWidth",
+      "setCurrentGeometrySizeHeight",
+    ]),
+  },
+};
+</script>
