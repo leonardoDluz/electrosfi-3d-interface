@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import firebase from 'firebase';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -63,6 +64,14 @@ const routes = [
     path: '/simulator/:key',
     name: 'Simulator',
     component: () => import('@/pages/Simulator'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/simulator3d',
+    name: 'Simulator3d',
+    component: () => import('@/pages/Simulator3d'),
     meta: {
       requiresAuth: true
     }
