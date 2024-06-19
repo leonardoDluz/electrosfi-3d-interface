@@ -28,9 +28,11 @@
             min-width: 12%;
             max-width: 20%;
             box-shadow: #00000080 0 0px 5px 0px;
+
             &.center {
                 box-shadow: none !important;
                 height: 100%;
+                margin: 0 8rem;
             }
             &.right {
                 position: fixed;
@@ -53,9 +55,9 @@
             z-index: 4;
             transition: transform 0.25s ease;
 
-            &:hover {
-                transform: scaleX(5);
-            }
+            // &:hover {
+            //     transform: scaleX(5);
+            // }
 
             .right {
                 left: 0;

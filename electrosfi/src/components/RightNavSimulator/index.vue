@@ -32,7 +32,7 @@
     </v-tabs>
     <v-expansion-panels multiple accordion :value="[0, 1, 2, 3, 4]" mandatory>
       <CellProperties />
-      <Dimensions />
+      <Dimensions :is3d="true"/>
       <Position />
       <FluxParameters />
       <SourceProperties />
@@ -58,6 +58,12 @@ export default {
     Material: () => import("@/components/RightNavSimulatorMaterial"),
     PlotOptions: () => import("@/components/RunSimulationPlotOptions"),
     Fill: () => import("@/components/RightNavSimulatorFill")
+  },
+  props: {
+    is3d: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {

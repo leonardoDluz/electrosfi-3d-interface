@@ -9,12 +9,19 @@
       <MobileAlert v-if="1 < 1"/>
       <NavbarDrawing v-if="!loading"/>
       <multipane layout="vertical" class="resizer-content" v-if="!loading">
-        <div>
+        <div class="multipane-content left">
           <SideNavSimulator/>
-        </div>
-        <multipane-resizer>
+        </div >
 
+        <multipane-resizer>
+          <div class="multipane-content center">
+            <ThreeDrawing/>
+          </div>
         </multipane-resizer>
+
+        <div class="multipane-content right">
+          <RightNavSimulator :is3d="true"/>
+        </div>
 
       </multipane>
     </div>
@@ -31,8 +38,10 @@ export default {
     Loading: () => import("@/components/Loading"),
     NavbarDrawing: () => import("@/components/Navbar"),
     SideNavSimulator: () => import("@/components/SideNavSimulator"),
+    RightNavSimulator: () => import("@/components/RightNavSimulator"),
+    ThreeDrawing: () => import("@/components/ThreeDrawing"),
     multipane: Multipane,
-    "multipane-resizer": MultipaneResizer
+    "multipane-resizer": MultipaneResizer,
   },
   data() {
     return {

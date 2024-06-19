@@ -47,6 +47,19 @@
                 type="number"
               />
             </v-col>
+            <v-col
+              v-if="geometryData.class !== 'source' && is3d"
+              cols="6"
+            >
+              <v-text-field
+                v-model="contentGeometrDepth"
+                outlined
+                dense
+                label="Depth"
+                color="primary"
+                type="number"
+              />
+            </v-col>
             <!-- <v-col cols="12" v-if="geometryData.class !== 'source'">
               <v-switch
                 class="mt-0 pt-0"
@@ -68,6 +81,12 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "GeometryProperties",
   mounted(){
+  }, 
+  props: {
+    is3d: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     ...mapGetters("simulator", ["geometryData", "dimensions"]),
@@ -87,7 +106,7 @@ export default {
         this.setCurrentGeometrySizeWidth(Number(value * this.dimensions.relationship.y));
       },
     },
-    contentGeometrHeight: {
+    contentGeometrHeight: { 
       get() {
         return Number(this.geometryData.height.toFixed(3)) / this.dimensions.relationship.y;
       },
