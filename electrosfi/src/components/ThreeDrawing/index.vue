@@ -52,11 +52,19 @@ export default {
       this.GeometryList.map(geometry => {
         let geo;
 
-        if (geometry.shape == "block") {
+        if (geometry.shape == "block") {         
           geo = new BoxGeometry(
             geometry.color, 
-            geometry.dimensions,
-            geometry.positions
+            { 
+              width: geometry.width, 
+              height: geometry.height, 
+              depth: geometry.depth, 
+            },
+            {
+              x: geometry.x,
+              y: geometry.y,
+              z: geometry.z
+            }
           );
         }
 
@@ -64,15 +72,27 @@ export default {
           geo = new SphereGeometry(
             geometry.color, 
             geometry.radius,
-            geometry.positions
+            {
+              x: geometry.x,
+              y: geometry.y,
+              z: geometry.z
+            }
           );
         }
 
         if (geometry.shape == "triangle") {
           geo = new TriangleGeometry(
             geometry.color,
-            geometry.dimensions,
-            geometry.positions
+            { 
+              width: geometry.width, 
+              height: geometry.height, 
+              depth: geometry.depth, 
+            },
+            {
+              x: geometry.x,
+              y: geometry.y,
+              z: geometry.z
+            }
           );
 
         }

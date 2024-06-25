@@ -10,7 +10,7 @@
       <NavbarDrawing v-if="!loading"/>
       <multipane layout="vertical" class="resizer-content" v-if="!loading">
         <div class="multipane-content left">
-          <SideNavSimulator/>
+          <SideNavSimulator :is3d="true"/>
         </div >
 
         <multipane-resizer>

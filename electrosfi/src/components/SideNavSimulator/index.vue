@@ -109,7 +109,8 @@
 </template>
 <script>
 import draggable from "vuedraggable";
-import { mapGetters, mapActions } from "vuex";
+// import { mapGetters, mapActions } from "vuex";
+import loadStore from "./loadStore";
 
 export default {
   name: "SideNavSimulator",
@@ -120,6 +121,12 @@ export default {
     width: 300,
     tab: null
   }),
+  props: {
+    is3d: {
+      type: Boolean,
+      default: false
+    }
+  },
   watch: {
     mode: function() {
       if (this.mode === "create") {
@@ -134,30 +141,50 @@ export default {
       }
     }
   },
+  created() {
+    // const actions = loadStore.actions(this.is3d);
+    // const getters = loadStore.getters(this.is3d);
+
+    // Object.assign(this.$options.methods, actions)
+    // Object.assign(this.$options.computed, getters)
+
+    console.log({
+      methods: this.$options.methods, 
+      computed: this.$options.computed
+    });
+  },
+  mounted() {
+    console.log({
+      GeometryList: this.GeometryList 
+    }); 
+  },
   methods: {
-    ...mapActions("simulator", [
-      "setGeometryList",
-      "setSelectedTokenAction",
-      "GeometryListRemove",
-      "setCurrentMode",
-      "setCurrentViewMode",
-      "setFluxList",
-      "OpenModalSettingsFlux",
-      "setShowModalSettingsFlux"
-    ]),
+    // ...mapActions("simulator3d", [
+    //   "setGeometryList",
+    //   "setSelectedTokenAction",
+    //   "GeometryListRemove",
+    //   "setCurrentMode",
+    //   "setCurrentViewMode",
+    //   "setFluxList",
+    //   "OpenModalSettingsFlux",
+    //   "setShowModalSettingsFlux"
+    // ]) ,
+    ...loadStore.mapDynamicActions(),
     onResize: function(width) {
       this.width = width;
     }
   },
   computed: {
-    ...mapGetters("simulator", [
-      "GeometryList",
-      "selectedToken",
-      "mode",
-      "SourcesList",
-      "viewMode",
-      "FluxList"
-    ]),
+    // ...mapGetters("simulator3d", [
+    //   "GeometryList",
+    //   "selectedToken",
+    //   "mode",
+    //   "SourcesList",
+    //   "viewMode",
+    //   "FluxList"
+    // ]),
+    ...loadStore.mapDynamicGetters(),
+
     sourcesListDraggableContent: {
       get() {
         return Object.entries(this.SourcesList)

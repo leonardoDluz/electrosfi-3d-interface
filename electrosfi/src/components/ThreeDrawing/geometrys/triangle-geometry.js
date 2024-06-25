@@ -4,17 +4,18 @@ import Geometry from "./geometry";
 export default class TriangleGeometry extends Geometry{
   constructor(color, dimensions, positions) {
     const shape = "triangle"
-    const { x, y, z } = dimensions;
+    const { width, height, depth } = dimensions;
+
 
     const shapeGeometry = new THREE.Shape();
-    shapeGeometry.moveTo(0, y / 2);
-    shapeGeometry.lineTo(x / 2, -y / 2);
-    shapeGeometry.lineTo(-x / 2, -y / 2);
-    shapeGeometry.lineTo(0, y / 2);
+    shapeGeometry.moveTo(0, height / 2);
+    shapeGeometry.lineTo(width / 2, -height / 2);
+    shapeGeometry.lineTo(-width / 2, -height / 2);
+    shapeGeometry.lineTo(0, height / 2);
 
     const extrudeSettings = {
       steps: 2,
-      depth: z,
+      depth: depth,
       bevelEnabled: false,
       bevelThickness: 0,
       bevelSize: 0,
@@ -24,8 +25,10 @@ export default class TriangleGeometry extends Geometry{
     const geometry = new THREE.ExtrudeGeometry(shapeGeometry, extrudeSettings);
     const material = new THREE.MeshBasicMaterial({ color: color });
     const mesh = new THREE.Mesh(geometry, material);
+
+    const { x, y, z } = positions;
     
     super(geometry, material, mesh, shape);
-    this.setPositions(positions.x, positions.y, positions.z);
+    this.setPositions(x, y, z);
   }
 }

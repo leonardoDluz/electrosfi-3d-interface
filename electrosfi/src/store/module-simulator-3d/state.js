@@ -8,18 +8,38 @@ export default {
   description: "Untitled simulation description",
   GeometryList: [
     {
+      name: "block 1",
+      token:"2a09aaf31f864e3874442aeb53a513a8",
       color: 0x00ff00,
       shape: "block",
-      dimensions: {
-        x: 2,
-        y: 1,
-        z: 1
-      },
-      positions: {
-        x: 2,
-        y: 0,
-        z: 0
-      }
+      width: 2,
+      height: 1,
+      depth: 1,
+      x: 2,
+      y: 0,
+      z: 0
+    },
+    {
+      name: "triangle 1",
+      token:"2a09aaf31f864e3874442aeb53a513a9",
+      color: 0x00ff00,
+      shape: "triangle",
+      width: 1,
+      height: 1,
+      depth: 1,
+      x: 0,
+      y: 0,
+      z: 0
+    },
+    {
+      name: "circle 1",
+      token:"2a09aaf31f864e3874442aeb53a513a7",
+      color: 0x00ff00,
+      shape: "circle",
+      raidius: 0.5,
+      x: 0,
+      y: 2,
+      z: 0
     },
   ],
   larguraSidenav: "",
