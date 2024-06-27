@@ -17,6 +17,9 @@ export default {
     this.init();
     this.animate();
   },
+  updated() {
+    
+  },
   // beforeDestroy() {
   //   window.removeEventListener('resize', this.onWindowResize);
   // },
@@ -24,7 +27,7 @@ export default {
     init() {   
       this.scene = new THREE.Scene();
       this.scene.background = new THREE.Color(0xededed)
-      this.camera = new THREE.PerspectiveCamera(75, 1, 1, 10);
+      this.camera = new THREE.PerspectiveCamera(160, 1, 1, 10);
       this.renderer = new THREE.WebGLRenderer();
       this.renderer.setSize(900, 900);
       this.$refs.threeDrawing.appendChild(this.renderer.domElement);    
@@ -54,7 +57,7 @@ export default {
 
         if (geometry.shape == "block") {         
           geo = new BoxGeometry(
-            geometry.color, 
+            geometry.fill, 
             { 
               width: geometry.width, 
               height: geometry.height, 
@@ -70,7 +73,7 @@ export default {
 
         if (geometry.shape == "circle") {
           geo = new SphereGeometry(
-            geometry.color, 
+            geometry.fill, 
             geometry.radius,
             {
               x: geometry.x,
@@ -82,7 +85,7 @@ export default {
 
         if (geometry.shape == "triangle") {
           geo = new TriangleGeometry(
-            geometry.color,
+            geometry.fill,
             { 
               width: geometry.width, 
               height: geometry.height, 
@@ -100,7 +103,7 @@ export default {
         this.scene.add(geo.mesh);
       });
     },
-    ...mapActions("simulator3d", [
+    ...mapActions("simulator", [
       "GeometryListAppendAction",
       "setGeometryList",
       "updateState",
@@ -124,7 +127,7 @@ export default {
     ]),
   },
   computed: {
-    ...mapGetters("simulator3d", [
+    ...mapGetters("simulator", [
       "getCurrentScale",
       "GeometryList",
       "drawing",

@@ -90,6 +90,11 @@ const setCurrentGeometrySizeHeight = ({ dispatch, commit }, content) => {
     dispatch('updateState');
 }
 
+const setCurrentGeometrySizeDepth = ({ dispatch, commit }, content) => {
+    commit('setCurrentGeometrySizeDepth', content)
+    dispatch('updateState')
+}
+
 const setCurrentGeometryPosX = ({ dispatch, commit }, content) => {
     commit('setCurrentGeometryPosX', content)
     dispatch('updateState');
@@ -374,6 +379,7 @@ export {
     setCurrentGeometrySize,
     setCurrentGeometrySizeWidth,
     setCurrentGeometrySizeHeight,
+    setCurrentGeometrySizeDepth,
     setCurrentGeometryPosX,
     setCurrentGeometryPosY,
     setCurrentGeometryRadius,

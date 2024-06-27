@@ -7,7 +7,7 @@
       :class="loading ? 'fill-height' : 'simulator-container'"
     >
       <MobileAlert v-if="1 < 1"/>
-      <NavbarDrawing v-if="!loading"/>
+      <NavbarDrawing v-if="!loading" :is3d="true"/>
       <multipane layout="vertical" class="resizer-content" v-if="!loading">
         <div class="multipane-content left">
           <SideNavSimulator :is3d="true"/>

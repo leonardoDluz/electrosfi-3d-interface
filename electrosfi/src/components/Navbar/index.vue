@@ -271,6 +271,12 @@ export default {
     Notifications: () => import("@/components/Notifications"),
     HelpButton:() => import("@/components/HelpButton")
   },
+  props: {
+    is3d: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     ...mapGetters("simulator", ["shape", "mode", "zoomAction", "sincronizado"]),
     nocturne: {

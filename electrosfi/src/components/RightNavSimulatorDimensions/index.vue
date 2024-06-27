@@ -114,12 +114,22 @@ export default {
         this.setCurrentGeometrySizeHeight(Number(value * this.dimensions.relationship.y)) ;
       },
     },
+    contentGeometrDepth: {
+      get() {
+        console.log(this.geometryData.depth.toFixed(3) / this.dimensions.relationship.z);
+        return Number(this.geometryData.depth.toFixed(3) / this.dimensions.relationship.z);
+      },
+      set(value) {
+        this.setCurrentGeometrySizeDepth(Number(value * this.dimensions.relationship.y)) ;
+      }
+    }
   },
   methods: {
     ...mapActions("simulator", [
       "setCurrentGeometryRadius",
       "setCurrentGeometrySizeWidth",
       "setCurrentGeometrySizeHeight",
+      "setCurrentGeometrySizeDepth"
     ]),
   },
 };

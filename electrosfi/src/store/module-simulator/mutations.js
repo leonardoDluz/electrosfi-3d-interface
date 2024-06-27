@@ -6,6 +6,7 @@ import {
   setCurrentGeometrySize,
   setCurrentGeometrySizeWidth,
   setCurrentGeometrySizeHeight,
+  setCurrentGeometrySizeDepth,
   setCurrentGeometryRadius,
   setCurrentGeometryRotation
 } from "./lib/geometryDimensions"
@@ -578,6 +579,7 @@ export {
   setCurrentGeometrySize,
   setCurrentGeometrySizeWidth,
   setCurrentGeometrySizeHeight,
+  setCurrentGeometrySizeDepth,
   setCurrentGeometryPosX,
   setCurrentGeometryPosY,
   setCurrentGeometryRadius,

@@ -12,6 +12,7 @@ function setGeometryProperty(state, data) {
 const setCurrentGeometrySize = (state, geometryData) => {
     setGeometryProperty(state, ['width', geometryData.width]);
     setGeometryProperty(state, ['height', geometryData.height]);
+    setGeometryProperty(state, ['depth', geometryData.depth]);
 }
 const setCurrentGeometrySizeWidth = (state, geometryData) => {
     setGeometryProperty(state, ['width', geometryData]);
@@ -29,10 +30,15 @@ const setCurrentGeometryRotation = (state, geometryData) => {
     setGeometryProperty(state, ['rotation', geometryData]);
 }
 
+const setCurrentGeometrySizeDepth = (state, geometryData) => {
+    setGeometryProperty(state, ['depth', geometryData]);
+}
+
 export {
     setCurrentGeometrySize,
     setCurrentGeometrySizeWidth,
     setCurrentGeometrySizeHeight,
+    setCurrentGeometrySizeDepth,
     setCurrentGeometryRadius,
     setCurrentGeometryRotation
 }
