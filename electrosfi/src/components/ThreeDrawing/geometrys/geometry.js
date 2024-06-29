@@ -4,6 +4,7 @@ export default class Geometry {
     this.material = material;
     this.mesh = mesh;
     this.shape = shape;
+    this.id = mesh.uuid;
   }
 
   setDims(x, y, z) {

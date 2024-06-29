@@ -14,43 +14,6 @@ export default {
     until: 200,
     is3d: true,
     GeometryList: [
-        {
-            class: "geometry",
-            name: "block 1",
-            token:"2a09aaf31f864e3874442aeb53a513a8",
-            fill: 0x00ff00,
-            shape: "block",
-            width: 10,
-            height: 10,
-            depth: 4,
-            x: 10,
-            y: 0,
-            z: 0
-          },
-          {
-            class: "geometry",
-            name: "triangle 1",
-            token:"2a09aaf31f864e3874442aeb53a513a9",
-            fill: 0x00ff00,
-            shape: "triangle",
-            width: 5,
-            height: 5,
-            depth: 2.5,
-            x: -4,
-            y: 4,
-            z: 0
-          },
-          {
-            class: "geometry",
-            name: "circle 1",
-            token:"2a09aaf31f864e3874442aeb53a513a7",
-            fill: 0x00ff00,
-            shape: "circle",
-            radius: 4,
-            x: -3,
-            y: -3,
-            z: 0
-          },
     ],
     SourcesList: [],
     FluxList: [],
