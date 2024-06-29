@@ -33,7 +33,7 @@
     <v-expansion-panels multiple accordion :value="[0, 1, 2, 3, 4]" mandatory>
       <CellProperties />
       <Dimensions :is3d="is3d"/>
-      <Position />
+      <Position :is3d="is3d"/>
       <FluxParameters />
       <SourceProperties />
       <Material />

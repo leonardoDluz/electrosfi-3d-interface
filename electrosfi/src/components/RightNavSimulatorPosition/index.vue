@@ -29,6 +29,19 @@
                 @click="dialog = true"
               />
             </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-if="is3d"
+                v-model="contentGeometrZ"
+                outlined
+                dense
+                label="Z"
+                color="primary"
+                type="number"
+                readonly
+                @click="dialog = true"
+              />
+            </v-col>
           </v-row>
           <v-dialog
             v-model="dialog"
@@ -77,6 +90,18 @@
                       @keydown.enter="updateSizeAndPositionLocal"
                     />
                   </v-col>
+                  <v-col>
+                    <v-text-field
+                      v-if="is3d"
+                      v-model="contentGeometrZ"
+                      outlined
+                      dense
+                      label="Z"
+                      color="primary"
+                      type="number"
+                      @keydown.enter="updateSizeAndPositionLocal"
+                    />
+                  </v-col>
                 </v-row>
               </v-card-text>
               <v-card-actions>
@@ -111,12 +136,20 @@ export default {
       dialog: false,
       posX: 0,
       posY: 0,
+      posZ: 0
     };
+  },
+  props: {
+    is3d: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     ...mapActions("simulator", [
       "setCurrentGeometryPosY",
       "setCurrentGeometryPosX",
+      "setCurrentGeometryPosZ",
       "updateSizeAndPosition",
     ]),
     updateSizeAndPositionLocal: function () {
@@ -129,6 +162,11 @@ export default {
       this.setCurrentGeometryPosY(
         (this.posY + this.coordinates.y / 2) * this.dimensions.relationship.y -
           this.geometryData.height / 2
+      );
+
+      this.setCurrentGeometryPosZ(
+        (this.posZ + this.coordinates.z / 2) * this.dimensions.relationship.z -
+          this.geometryData.depth / 2
       );
     },
   },
@@ -165,6 +203,20 @@ export default {
       },
       set(value) {
         this.posY = Number(value);
+      },
+    },
+    contentGeometrZ: {
+      get() {
+        if(!this.geometryData) return 0;
+        let pos =
+          (this.coordinates.z / 2 -
+            (this.geometryData.z + this.geometryData.depth / 2) /
+              this.dimensions.relationship.z) *
+          -1;
+        return pos.toFixed(3);
+      },
+      set(value) {
+        this.posZ = Number(value);
       },
     },
   },
