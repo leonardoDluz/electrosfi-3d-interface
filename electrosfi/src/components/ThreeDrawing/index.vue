@@ -25,17 +25,17 @@ export default {
   //   window.removeEventListener('resize', this.onWindowResize);
   // },
   watch: {
-    selectedToken: function() {
-      if (this.mode == "transform") {
-        this.updateTransformer();
-      }
-    },
-    viewMode: function() {
-      this.updateTransformer();
-    },
-    mode: function() {
-      this.updateTransformer();
-    },
+    // selectedToken: function() {
+    //   if (this.mode == "transform") {
+    //     this.updateTransformer();
+    //   }
+    // },
+    // viewMode: function() {
+    //   this.updateTransformer();
+    // },
+    // mode: function() {
+    //   this.updateTransformer();
+    // },
     GeometryList: function() {
       this.clearScene();
       this.loadGeometrys();
@@ -54,25 +54,7 @@ export default {
       this.animate(); 
     },
     clearScene() {
-      this.scene.children.forEach(object => {
-        this.scene.remove(object);
-
-        if (object.geometry) {
-          object.geometry.dispose();
-        }
-
-        if (object.material) {
-          if (Array.isArray(object.material)) {
-            object.material.forEach(material => material.dispose());
-          } else {
-            object.material.dispose();
-          }
-        }
-
-        if (object.material && object.material.map) {
-          object.material.map.dispose();
-        }
-      });
+      this.scene.children = [];
     },
     animate() {
       requestAnimationFrame(this.animate);
@@ -142,9 +124,9 @@ export default {
         this.setCurrentGeometryAction({
             name: this.shape + " " + (this.GeometryList.length + 1),
             token: token,
-            x: 1, 
-            y: 1,
-            z: 1, 
+            x: 2, 
+            y: 2,
+            z: 2, 
             fill: this.color,
             shape: this.shape,
             epsilon: 12,
@@ -157,6 +139,7 @@ export default {
             rotation: 0,
             scaleX: 1,
             scaleY: 1,
+            scaleZ: 1,
             geometricFill: {
                 properties: {
                     name: `Default ${this.shape + " " + (this.GeometryList.length + 1)}`,
