@@ -140,12 +140,6 @@ export default {
       }
     }
   },
-
-  mounted() {
-    console.log({
-      GeometryList: this.GeometryList 
-    }); 
-  },
   methods: {
     ...mapActions("simulator", [
       "setGeometryList",
