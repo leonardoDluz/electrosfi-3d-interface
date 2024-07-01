@@ -105,6 +105,11 @@ const setCurrentGeometryPosY = ({ dispatch, commit }, content) => {
     dispatch('updateState');
 }
 
+const setCurrentGeometryPosZ = ({ dispatch, commit }, content) => {
+    commit('setCurrentGeometryPosZ', content)
+    dispatch('updateState');
+}
+
 const GeometryListRemove = ({ dispatch, commit }, content) => {
     commit('GeometryListRemove', content)
     dispatch('updateState');
@@ -382,6 +387,7 @@ export {
     setCurrentGeometrySizeDepth,
     setCurrentGeometryPosX,
     setCurrentGeometryPosY,
+    setCurrentGeometryPosZ,
     setCurrentGeometryRadius,
     setMaterialForm,
     setUserMaterials,

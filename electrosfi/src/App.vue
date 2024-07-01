@@ -33,7 +33,7 @@ export default {
     ...mapActions("simulator", ["setAuthor"]),
     defineCurrentUserAuthorID() {
       try{
-        console.log(firebase.auth().currentUser.uid);
+        // console.log(firebase.auth().currentUser.uid);
         this.setAuthor(firebase.auth().currentUser.uid);
       }catch(err){
         console.error(err.message);

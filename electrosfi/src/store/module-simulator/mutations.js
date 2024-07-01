@@ -38,6 +38,7 @@ import {
 import {
   setCurrentGeometryPosX,
   setCurrentGeometryPosY,
+  setCurrentGeometryPosZ
 } from "./lib/geometryPositions"
 
 const GeometryListAppend = (state, geometry) => {
@@ -252,10 +253,12 @@ const setLoadingSimulation = (state, content) => {
 const updateSizeAndPosition = (state, content) => {
   var {
     x,
-    y
+    y,
+    z
   } = content;
   setCurrentGeometryPosX(((x + (state.coordinates.x / 2)) * state.dimensions.relationship.x) - (state.currentGeometry.width / 2));
   setCurrentGeometryPosY((((state.coordinates.y / 2) + y) * state.dimensions.relationship.y) - (state.currentGeometry.height / 2));
+  setCurrentGeometryPosZ((((state.coordinates.z / 2) + z) * state.dimensions.relationship.z) - (state.currentGeometry.depth / 2));
 }
 
 const openPlotOptions = (state, content) => {
@@ -582,6 +585,7 @@ export {
   setCurrentGeometrySizeDepth,
   setCurrentGeometryPosX,
   setCurrentGeometryPosY,
+  setCurrentGeometryPosZ,
   setCurrentGeometryRadius,
   setMaterialForm,
   setUserMaterials,

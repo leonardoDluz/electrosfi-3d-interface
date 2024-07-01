@@ -13,8 +13,7 @@ export default {
     loading_simulation: false,
     until: 200,
     is3d: true,
-    GeometryList: [
-    ],
+    GeometryList: [],
     SourcesList: [],
     FluxList: [],
     productions: [],
@@ -37,7 +36,7 @@ export default {
     coordinates: {
         x: 16,
         y: 16,
-        z: 0
+        z: 16
     },
     default_material: 1,
     cell: {
@@ -81,7 +80,7 @@ export default {
     mode: "create",
     shape: "block",
     zoomAction: "In",
-    color: "#000",
+    color: "#303030",
     selectedToken: "",
     selectedSourceToken: "",
     selectedInsideToken: "",
