@@ -36,10 +36,13 @@ export default {
     // mode: function() {
     //   this.updateTransformer();
     // },
-    GeometryList: function() {
-      this.clearScene();
-      this.loadGeometrys();
-      // this.updateState();
+    GeometryList: {
+      handler() {
+        this.clearScene();
+        this.loadGeometrys();
+        // this.updateState();
+      },
+      deep: true
     }
   },
   methods: {
