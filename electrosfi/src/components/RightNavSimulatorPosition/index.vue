@@ -154,20 +154,23 @@ export default {
     ]),
     updateSizeAndPositionLocal: function () {
       this.dialog = false;
-      this.setCurrentGeometryPosX(
-        (this.posX + this.coordinates.x / 2) * this.dimensions.relationship.x -
-          this.geometryData.width / 2
-      );
+      
 
-      this.setCurrentGeometryPosY(
-        (this.posY + this.coordinates.y / 2) * this.dimensions.relationship.y -
-          this.geometryData.height / 2
-      );
+      if (this.is3d) {
+        this.setCurrentGeometryPosX(this.posX);
+        this.setCurrentGeometryPosY(this.posY);
+        this.setCurrentGeometryPosZ(this.posZ);
+      } else {
+        this.setCurrentGeometryPosX(
+          (this.posX + this.coordinates.x / 2) * this.dimensions.relationship.x -
+            this.geometryData.width / 2
+        );
 
-      this.setCurrentGeometryPosZ(
-        (this.posZ + this.coordinates.z / 2) * this.dimensions.relationship.z -
-          this.geometryData.depth / 2
-      );
+        this.setCurrentGeometryPosY(
+          (this.posY + this.coordinates.y / 2) * this.dimensions.relationship.y -
+            this.geometryData.height / 2
+        );
+      }
     },
   },
   computed: {
@@ -181,10 +184,14 @@ export default {
     contentGeometrX: {
       get() {
         if(!this.geometryData) return 0;
-        let pos =
-          (this.geometryData.x + this.geometryData.width / 2) /
+        let pos;
+        if (this.is3d) {
+          pos = this.geometryData.x;
+        } else {
+          pos = (this.geometryData.x + this.geometryData.width / 2) /
             this.dimensions.relationship.x -
           this.coordinates.x / 2;
+        }
         return pos.toFixed(3);
       },
       set(value) {
@@ -194,11 +201,14 @@ export default {
     contentGeometrY: {
       get() {
         if(!this.geometryData) return 0;
-        let pos =
-          (this.coordinates.y / 2 -
-            (this.geometryData.y + this.geometryData.height / 2) /
-              this.dimensions.relationship.y) *
-          -1;
+        let pos;
+        if (this.is3d) {
+          pos = this.geometryData.y;
+        } else {
+          pos = (this.geometryData.y + this.geometryData.height / 2) /
+            this.dimensions.relationship.y -
+          this.coordinates.y / 2;
+        }
         return pos.toFixed(3);
       },
       set(value) {
@@ -208,11 +218,7 @@ export default {
     contentGeometrZ: {
       get() {
         if(!this.geometryData) return 0;
-        let pos =
-          (this.coordinates.z / 2 -
-            (this.geometryData.z + this.geometryData.depth / 2) /
-              this.dimensions.relationship.z) *
-          -1;
+        let pos = this.geometryData.x;
         return pos.toFixed(3);
       },
       set(value) {

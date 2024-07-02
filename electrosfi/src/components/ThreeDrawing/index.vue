@@ -127,9 +127,9 @@ export default {
         this.setCurrentGeometryAction({
             name: this.shape + " " + (this.GeometryList.length + 1),
             token: token,
-            x: 2, 
-            y: 2,
-            z: 2, 
+            x: 0, 
+            y: 0,
+            z: 0, 
             fill: this.color,
             shape: this.shape,
             epsilon: 12,

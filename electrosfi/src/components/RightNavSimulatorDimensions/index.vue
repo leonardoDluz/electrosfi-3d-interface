@@ -21,8 +21,8 @@
                 type="number"
               />
             </v-col>
-            <v-col
-              v-if="geometryData.class !== 'source'"
+            <v-col 
+              v-if="geometryData.class !== 'source' && geometryData.shape !== 'sphere'"
               cols="6"
             >
               <v-text-field
@@ -35,7 +35,7 @@
               />
             </v-col>
             <v-col
-              v-if="geometryData.class !== 'source'"
+              v-if="geometryData.class !== 'source' && geometryData.shape !== 'sphere'"
               cols="6"
             >
               <v-text-field
@@ -48,7 +48,7 @@
               />
             </v-col>
             <v-col
-              v-if="geometryData.class !== 'source' && is3d"
+              v-if="geometryData.class !== 'source' && is3d && geometryData.shape !== 'sphere'"
               cols="6"
             >
               <v-text-field
