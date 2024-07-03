@@ -357,6 +357,27 @@ const setCurrentGeometricElementMiniCanvas = (state, content) => {
   }
 }
 
+const set3dState = (state, { data }) => {
+  try {
+    state.is3d = true,
+    state.GeometryList = [...data.geometries];
+    state.title = data.title;
+    state.description = data.description;
+    state.scene_design = data.scene_design;
+    state.scene_simulation = data.scene_simulation;
+    state.movie = data.movie;
+    state.id = data._id;
+    state.author = data.author;
+  } catch (err) {
+    Swal.fire({
+      title: 'An error appears!',
+      text: err.message
+    });
+    console.error(err.message);
+    router.push('/dashboard');
+  }
+}
+
 const setState = (state, { data }) => {
   try {
     state.GeometryList = [...data.geometries];
@@ -633,6 +654,7 @@ export {
   setSelectedInsideToken,
   setPropertiesGeometryFill,
   setCurrentGeometricElementMiniCanvas,
+  set3dState,
   setState,
   updateState,
   runSimulation,

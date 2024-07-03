@@ -69,7 +69,7 @@ const routes = [
     }
   },
   {
-    path: '/simulator3d',
+    path: '/simulator3d/:key',
     name: 'Simulator3d',
     component: () => import('@/pages/Simulator3d'),
     meta: {
