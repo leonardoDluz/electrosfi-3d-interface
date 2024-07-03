@@ -13,6 +13,7 @@ import BoxGeometry from './geometrys/box-geometry';
 import SphereGeometry from './geometrys/sphere-geometry';
 import TriangleGeometry from './geometrys/triangle-geometry';
 import md5 from 'js-md5';
+import formatColor from '@/common/formatColor';
 
 export default {
   name: 'ThreeDrawing',
@@ -71,10 +72,12 @@ export default {
     loadGeometrys() {
       this.GeometryList.map(geometry => {
         let geo;
+        const color = formatColor(geometry.fill);
+        console.log(color);
 
         if (geometry.shape == "block") {         
           geo = new BoxGeometry(
-            geometry.fill, 
+            color, 
             { 
               width: geometry.width, 
               height: geometry.height, 
@@ -90,7 +93,7 @@ export default {
 
         if (geometry.shape == "sphere") {
           geo = new SphereGeometry(
-            geometry.fill, 
+            color, 
             geometry.radius,
             {
               x: geometry.x,
@@ -102,7 +105,7 @@ export default {
 
         if (geometry.shape == "triangle") {
           geo = new TriangleGeometry(
-            geometry.fill,
+            color,
             { 
               width: geometry.width, 
               height: geometry.height, 

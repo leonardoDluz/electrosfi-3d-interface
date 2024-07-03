@@ -8,7 +8,10 @@ export default class BoxGeometry extends Geometry{
     
     const geometry = new THREE.BoxGeometry(width, height, depth, 2, 3, 4);
     const { x, y, z } = positions;
-    const material = new THREE.MeshBasicMaterial({ color: color });
+    const material = new THREE.MeshBasicMaterial({ 
+      ...color,
+      transparent: true
+    });
     const mesh = new THREE.Mesh(geometry, material);
     
     super(geometry, material, mesh, shape);
