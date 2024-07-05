@@ -19,7 +19,7 @@ export default class RingGeometry {
     };
 
     this.geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-    this.material = new THREE.MeshBasicMaterial({
+    this.material = new THREE.MeshPhongMaterial({
       color: color,
       side: THREE.DoubleSide,
     });

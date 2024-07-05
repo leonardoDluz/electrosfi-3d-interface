@@ -52,9 +52,15 @@ export default {
       this.scene.background = new THREE.Color(0xededed)
       this.camera = new THREE.PerspectiveCamera(75, 1, 1, 10);
       this.renderer = new THREE.WebGLRenderer();
+      this.renderer.shadowMap.enabled = true;
+      this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       this.renderer.setSize(900, 900);
       this.$refs.threeDrawing.appendChild(this.renderer.domElement);    
-      this.camera.position.z = 10;  
+      this.camera.position.z = 10; 
+      this.directionalLight = new THREE.DirectionalLight(0xffffff, 20);
+      this.directionalLight.position.set(0, 0, 1); 
+      this.camera.add(this.directionalLight);
+      this.scene.add(this.camera); 
       this.animate(); 
     },
     clearScene() {

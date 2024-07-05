@@ -7,7 +7,7 @@ export default class ConeGeometry {
       y,
       1 * 1000
     );
-    this.material = new THREE.MeshBasicMaterial({ color: color });
+    this.material = new THREE.MeshPhongMaterial({ color: color });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
   }
 }

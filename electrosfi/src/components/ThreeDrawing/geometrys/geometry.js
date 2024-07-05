@@ -1,3 +1,4 @@
+//import * as THREE from "three";
 export default class Geometry {
   constructor(geometry, material, mesh, shape) {
     this.geometry = geometry;
@@ -5,6 +6,10 @@ export default class Geometry {
     this.mesh = mesh;
     this.shape = shape;
     this.id = mesh.uuid;
+    // this.edges = new THREE.EdgesGeometry(geometry);
+    // this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 });
+    // this.wireframe = new THREE.LineSegments(this.edges, this.lineMaterial);
+    // this.geometry.add(this.wireframe);
   }
 
   setDims(x, y, z) {

@@ -21,7 +21,7 @@ services:
     container_name: electrosfi-backend-prod
     build: .
     ports:
-      - "5002:3000"
+      - "5002:5002"
     environment:
-      - PORT=3000
+      - PORT=5002
       - DB_CONNECTION=mongodb://root:root@mongo:27017/

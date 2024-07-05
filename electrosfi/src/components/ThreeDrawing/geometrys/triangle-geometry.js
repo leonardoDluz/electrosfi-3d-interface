@@ -23,7 +23,7 @@ export default class TriangleGeometry extends Geometry{
     };
 
     const geometry = new THREE.ExtrudeGeometry(shapeGeometry, extrudeSettings);
-    const material = new THREE.MeshBasicMaterial({ 
+    const material = new THREE.MeshPhongMaterial({ 
       ...color,
       transparent: true
     });

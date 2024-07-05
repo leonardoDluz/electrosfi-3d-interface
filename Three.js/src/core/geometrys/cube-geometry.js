@@ -8,7 +8,7 @@ export default class CubeGeometry {
       y,
       z
     );
-    this.material = new THREE.MeshBasicMaterial({ color: color });
+    this.material = new THREE.MeshPhongMaterial({ color: color });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
   }
 }
