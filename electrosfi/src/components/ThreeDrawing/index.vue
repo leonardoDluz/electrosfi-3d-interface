@@ -1,6 +1,7 @@
 <template>
   <div 
     ref="threeDrawing"
+    class="threeDrawing"
     @click="addGeometry"
   />
 </template>
@@ -39,8 +40,11 @@ export default {
     // },
     GeometryList: {
       handler() {
+        console.log('before: ', this.scene.children);
         this.clearScene();
+        console.log('during: ', this.scene.children);
         this.loadGeometrys();
+        console.log('after: ', this.scene.children);
         // this.updateState();
       },
       deep: true
@@ -50,21 +54,31 @@ export default {
     init() {   
       this.scene = new THREE.Scene();
       this.scene.background = new THREE.Color(0xededed)
-      this.camera = new THREE.PerspectiveCamera(75, 1, 1, 10);
+      this.camera = new THREE.PerspectiveCamera(75, 
+        this.$refs.threeDrawing.offsetWidth /
+        this.$refs.threeDrawing.offsetHeight,
+        1, 10);
       this.renderer = new THREE.WebGLRenderer();
       this.renderer.shadowMap.enabled = true;
       this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      this.renderer.setSize(900, 900);
+      this.renderer.setSize(
+        this.$refs.threeDrawing.offsetWidth, 
+        this.$refs.threeDrawing.offsetHeight
+      );
       this.$refs.threeDrawing.appendChild(this.renderer.domElement);    
       this.camera.position.z = 10; 
-      this.directionalLight = new THREE.DirectionalLight(0xffffff, 20);
-      this.directionalLight.position.set(0, 0, 1); 
+      this.directionalLight = new THREE.DirectionalLight(0xffffff, 10);
+      // this.directionalLight.position.set(0, 0, 10);
       this.camera.add(this.directionalLight);
       this.scene.add(this.camera); 
       this.animate(); 
     },
     clearScene() {
-      this.scene.children = [];
+      const filteredSceneChildren = this.scene.children.filter(child => {
+        return !(child instanceof THREE.Mesh);
+      });
+      console.log(filteredSceneChildren);
+      this.scene.children = filteredSceneChildren;
     },
     animate() {
       requestAnimationFrame(this.animate);
@@ -79,7 +93,6 @@ export default {
       this.GeometryList.map(geometry => {
         let geo;
         const color = formatColor(geometry.fill);
-        console.log(color);
 
         if (geometry.shape == "block") {         
           geo = new BoxGeometry(
@@ -220,3 +233,12 @@ export default {
 
 
 </script>
+
+<style lang="scss">
+
+.threeDrawing {
+  width: 600px;
+  height: 600px;
+}
+
+</style>

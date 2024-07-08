@@ -8,7 +8,6 @@ const formatRgba = (rgba) => {
   const g = rgba.slice(3, 5);
   const b = rgba.slice(5, 7);
   const a = rgba.slice(7, 9);
-  console.log('rgba: ' ,r ,g ,b, a);
   const opacity = parseInt(a, 16) / 255;
 
   return {
@@ -18,7 +17,6 @@ const formatRgba = (rgba) => {
 }
 
 const formatRgb = (rgb) => {
-  console.log('rgb: ', rgb);
   return {
     color: rgb,
     opacity: 1

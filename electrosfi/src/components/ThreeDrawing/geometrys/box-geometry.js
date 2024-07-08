@@ -6,7 +6,7 @@ export default class BoxGeometry extends Geometry{
     const shape = "block"
     const { width, height, depth } = dimensions;
     
-    const geometry = new THREE.BoxGeometry(width, height, depth, 2, 3, 4);
+    const geometry = new THREE.BoxGeometry(width, height, depth);
     const { x, y, z } = positions;
     const material = new THREE.MeshPhongMaterial({ 
       ...color,
