@@ -13,6 +13,11 @@ const RunSimulation = ({ dispatch, commit }) => {
     dispatch('updateState');
 }
 
+const Run3dSimulation = ({ dispatch, commit }) => {
+    commit('run3dSimulation');
+    dispatch('updateState');
+}
+
 const SourcesListAppend = ({ dispatch, commit }, content) => {
     commit('SourcesListAppend', content);
     dispatch('updateState');
@@ -402,6 +407,7 @@ export {
     setCurrentGeometryWaveWidth,
     setCurrentGeometryWaveSize,
     RunSimulation,
+    Run3dSimulation,
     setShapeOfCurrentGeometry,
     setViewSimulation,
     setLoadingSimulation,

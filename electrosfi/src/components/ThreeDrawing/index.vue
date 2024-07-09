@@ -40,11 +40,8 @@ export default {
     // },
     GeometryList: {
       handler() {
-        console.log('before: ', this.scene.children);
         this.clearScene();
-        console.log('during: ', this.scene.children);
         this.loadGeometrys();
-        console.log('after: ', this.scene.children);
         // this.updateState();
       },
       deep: true
@@ -77,7 +74,6 @@ export default {
       const filteredSceneChildren = this.scene.children.filter(child => {
         return !(child instanceof THREE.Mesh);
       });
-      console.log(filteredSceneChildren);
       this.scene.children = filteredSceneChildren;
     },
     animate() {

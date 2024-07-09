@@ -83,7 +83,7 @@
         <v-btn @click="dialogShow = false">
           Cancel
         </v-btn>
-        <v-btn color="primary" @click="RunSimulation()">
+        <v-btn color="primary" @click="is3d ? Run3dSimulation() : RunSimulation()">
           Run Simulation
         </v-btn>
       </v-card-actions>
@@ -93,8 +93,15 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "PlotOptions",
+  props: {
+    is3d: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: () => ({
     e6: 1,
     tabs: 0,
@@ -214,7 +221,8 @@ export default {
       "set_realtime",
       "set_labels",
       "set_plotOptions",
-      "RunSimulation"
+      "RunSimulation",
+      "Run3dSimulation"
     ])
   },
   computed: {

@@ -1,4 +1,6 @@
 import simulator from "@/services/simulator.js";
+import gmsh from "@/services/gmsh";
+
 import router from '@/router';
 import updateState from './lib/updateState';
 import Swal from 'sweetalert2';
@@ -558,6 +560,41 @@ const runSimulation = (state) => {
     });
 }
 
+const run3dSimulation = (state) => {
+  const { GeometryList } = state;
+  const geometryList = GeometryList.map(geometry => {
+    const {
+      shape,
+      width,
+      height,
+      depth,
+      x, y, z
+    } = geometry
+
+    return {
+      shape,
+      width,
+      height,
+      depth,
+      x, y, z
+    }
+  });
+
+  console.log(geometryList);
+
+  gmsh.post("/", geometryList)
+    .then(({ data: { error, data } }) => {
+      console.log(data);
+
+      if (error) console.log('error: ', error);
+    })
+    .catch((err) => {
+      fireErrorAlert(err.message);
+      state.loading_simulation = false;
+      state.showPlotOptions = false
+    });
+}
+
 const clearCanvas = (state) => {
   state.GeometryList = [];
   state.FluxList = [];
@@ -658,6 +695,7 @@ export {
   setState,
   updateState,
   runSimulation,
+  run3dSimulation,
   clearCanvas,
   setAuthor,
   setShowModalSettingsFlux,

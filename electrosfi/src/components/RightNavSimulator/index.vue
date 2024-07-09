@@ -39,7 +39,7 @@
       <Material />
       <Fill />
     </v-expansion-panels>
-    <PlotOptions />
+    <PlotOptions :is3d="is3d"/>
   </div>
 </template>
 <script>
