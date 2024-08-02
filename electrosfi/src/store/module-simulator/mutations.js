@@ -561,7 +561,7 @@ const runSimulation = (state) => {
 }
 
 const run3dSimulation = (state) => {
-  const { GeometryList } = state;
+  const { GeometryList,  } = state;
   const geometryList = GeometryList.map(geometry => {
     const {
       shape,
@@ -573,6 +573,7 @@ const run3dSimulation = (state) => {
 
     return {
       shape,
+      material: "magnet",
       width,
       height,
       depth,
@@ -580,9 +581,12 @@ const run3dSimulation = (state) => {
     }
   });
 
-  console.log(geometryList);
+  const request = {
+    id: "teste",
+    geometries: geometryList
+  }
 
-  gmsh.post("/", geometryList)
+  gmsh.post("/", request)
     .then(({ data: { error, data } }) => {
       console.log(data);
 
