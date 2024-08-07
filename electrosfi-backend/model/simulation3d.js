@@ -49,92 +49,93 @@ module.exports = mongoose.model('Simulation3d', new mongoose.Schema({
     //     required: true
     // },
     geometries: [Object],
-    // sources: [
-    //     {
-    //         width: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //         height: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //         radius: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //         token: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         frequency: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //         waveLength: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //         integrated: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //         waveWidth: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //         component: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         fwidth: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         waveSize: [
-    //             {
-    //                 type: Number,
-    //                 required: true
-    //             }
-    //         ],
-    //         name: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         fill: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         sourceType: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         class: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         shape: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         x: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //         y: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //         posX: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //         posY: {
-    //             type: Number,
-    //             required: true
-    //         }
-    //     }
-    // ],
+    sources: [
+        {
+            // width: {
+            //     type: Number,
+            //     required: true
+            // },
+            // height: {
+            //     type: Number,
+            //     required: true
+            // },
+            // radius: {
+            //     type: Number,
+            //     required: true
+            // },
+            // token: {
+            //     type: String,
+            //     required: true
+            // },
+            // frequency: {
+            //     type: Number,
+            //     required: true
+            // },
+            waveLength: {
+                type: Number,
+                required: true
+            },
+            // integrated: {
+            //     type: Number,
+            //     required: true
+            // },
+            waveWidth: {
+                type: Number,
+                required: true
+            },
+            sourcePosition: [Number]
+            // component: {
+            //     type: String,
+            //     required: true
+            // },
+            // fwidth: {
+            //     type: String,
+            //     required: true
+            // },
+            // waveSize: [
+            //     {
+            //         type: Number,
+            //         required: true
+            //     }
+            // ],
+            // name: {
+            //     type: String,
+            //     required: true
+            // },
+            // fill: {
+            //     type: String,
+            //     required: true
+            // },
+            // sourceType: {
+            //     type: String,
+            //     required: true
+            // },
+            // class: {
+            //     type: String,
+            //     required: true
+            // },
+            // shape: {
+            //     type: String,
+            //     required: true
+            // },
+            // x: {
+            //     type: Number,
+            //     required: true
+            // },
+            // y: {
+            //     type: Number,
+            //     required: true
+            // },
+            // posX: {
+            //     type: Number,
+            //     required: true
+            // },
+            // posY: {
+            //     type: Number,
+            //     required: true
+            // }
+        }
+    ],
     // coordinates: {
     //     x: {
     //         type: Number,
