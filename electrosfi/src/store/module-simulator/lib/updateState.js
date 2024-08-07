@@ -1,4 +1,5 @@
 import api from "@/services/api";
+import simulator3d from "@/services/simulator3d";
 import router from '@/router'
 
 const updateState = (state) => {
@@ -22,7 +23,7 @@ const updateState = (state) => {
     charts
   } = state;
 
-  const params = {
+  let params = {
     title,
     description,
     coordinates,
@@ -42,9 +43,26 @@ const updateState = (state) => {
     plotOptions,
     productions
   };
-  api.patch(router.currentRoute.params.key, params).then(() => {
+
+  if (state.is3d) {
+    api.patch(router.currentRoute.params.key, params).then(() => {
+      state.sincronizado = true;
+    });
+    return;
+  }
+
+  params = {
+    title,
+    description,
+    _id: router.currentRoute.params.key,
+    geometries: GeometryList,
+    sources: SourcesList,
+  }
+
+  simulator3d.patch(router.currentRoute.params.key, params).then(() => {
     state.sincronizado = true;
-  });
+  })
+
 }
 
 export default updateState;

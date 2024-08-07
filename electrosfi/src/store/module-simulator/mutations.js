@@ -1,5 +1,6 @@
 import simulator from "@/services/simulator.js";
 import gmsh from "@/services/gmsh";
+import ngsolve from "@/services/ngsolve";
 
 import router from '@/router';
 import updateState from './lib/updateState';
@@ -560,8 +561,8 @@ const runSimulation = (state) => {
     });
 }
 
-const run3dSimulation = (state) => {
-  const { GeometryList,  } = state;
+const run3dSimulation = async (state) => {
+  const { GeometryList, id  } = state;
   const geometryList = GeometryList.map(geometry => {
     const {
       shape,
@@ -582,11 +583,41 @@ const run3dSimulation = (state) => {
   });
 
   const request = {
-    id: "teste",
+    id: id,
     geometries: geometryList
   }
 
-  gmsh.post("/", request)
+  await gmsh.post("/", request)
+    .then(({ data: { error, data } }) => {
+      console.log(data);
+
+      if (error) console.log('error: ', error);
+    })
+    .catch((err) => {
+      fireErrorAlert(err.message);
+      state.loading_simulation = false;
+      state.showPlotOptions = false
+    });
+  
+  const ngsolveRequest = {
+    simulation_id: id,
+    gmsh_mesh_path: id+".msh",
+    materials: [
+		{   
+      name: "air",
+			refraction_index: 1
+		}
+    ],
+    sources: [
+      {
+        wavelength: 2.0,
+        wave_width: 0.1,
+        source_position: [0.5,0.5,0.5]
+      }
+    ]
+  }
+
+  await ngsolve.post("/simulate", ngsolveRequest)
     .then(({ data: { error, data } }) => {
       console.log(data);
 

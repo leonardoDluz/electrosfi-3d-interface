@@ -2,7 +2,7 @@
   <div 
     ref="threeDrawing"
     class="threeDrawing"
-    @click="addGeometry"
+    @click="clickEvent"
   />
 </template>
 
@@ -10,9 +10,9 @@
 
 import * as THREE from 'three'
 import { mapActions, mapGetters } from 'vuex';
-import BoxGeometry from './geometrys/box-geometry';
-import SphereGeometry from './geometrys/sphere-geometry';
-import TriangleGeometry from './geometrys/triangle-geometry';
+import BoxGeometry from './geometries/box-geometry';
+import SphereGeometry from './geometries/sphere-geometry';
+import TriangleGeometry from './geometries/triangle-geometry';
 import md5 from 'js-md5';
 import formatColor from '@/common/formatColor';
 
@@ -20,7 +20,7 @@ export default {
   name: 'ThreeDrawing',
   mounted() {
     this.init();
-    this.loadGeometrys();
+    this.renderScene();
   },
   // },
   // beforeDestroy() {
@@ -40,11 +40,14 @@ export default {
     // },
     GeometryList: {
       handler() {
-        this.clearScene();
-        this.loadGeometrys();
-        // this.updateState();
+        this.renderScene();
       },
       deep: true
+    },
+    SourcesList: {
+      handler() {
+        this.renderScene();
+      }
     }
   },
   methods: {
@@ -76,6 +79,11 @@ export default {
       });
       this.scene.children = filteredSceneChildren;
     },
+    renderScene() {
+      this.clearScene();
+      this.loadGeometries();
+      this.loadSources();
+    },
     animate() {
       requestAnimationFrame(this.animate);
       this.renderer.render(this.scene, this.camera);
@@ -85,7 +93,14 @@ export default {
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(window.innerWidth, window.innerHeight);
     },
-    loadGeometrys() {
+    clickEvent() {            
+      if (this.mode == "create") {
+        this.addGeometry();
+      } else if (this.mode == "sources") {  
+        this.addSource();
+      }
+    },
+    loadGeometries() {
       this.GeometryList.map(geometry => {
         let geo;
         const color = formatColor(geometry.fill);
@@ -138,8 +153,24 @@ export default {
         this.scene.add(geo.mesh);
       });
     },
+    loadSources() {
+      console.log("sources: ",this.SourcesList);
+      this.SourcesList.map(source => {
+        const color = formatColor(source.fill);
+        const sourceGeometry = new SphereGeometry(
+          color,
+          0.2,
+          {
+            x: source.x,
+            y: source.y,
+            z: source.z
+          }
+        );
+
+        this.scene.add(sourceGeometry.mesh);
+      });
+    },
     addGeometry(/*event*/) {
-        if (this.mode != "create") return false;
         let token = md5.hex(Date.now().toString());
 
         this.setCurrentGeometryAction({
@@ -176,6 +207,27 @@ export default {
 
         // this.setDrawingStatusAction(true);
         this.GeometryListAppendAction(this.currentGeometry);
+        
+    },
+    addSource() {
+      const token = md5.hex(Date.now().toString());
+
+      const name = "Source " + (this.SourcesList.length + 1);
+      const fill = "#ff00000";
+
+      const newSource = {
+        name,
+        fill,
+        token,
+        waveLenght: 0,
+        waveWidth: 0,
+        x: 0,
+        y: 0,
+        z: 0
+      }
+
+      this.SourcesListAppend(newSource);
+      console.log("aa",this.SourcesList);
     },
     ...mapActions("simulator", [
       "GeometryListAppendAction",
@@ -194,7 +246,7 @@ export default {
       "setCurrentGeometrySizeHeight",
       "setCurrentGeometrySizeDepth",
       "setCurrentGeometryRadius",
-      // "SourcesListAppend",
+      "SourcesListAppend",
       "setCurrentGeometryPosX",
       "setCurrentGeometryPosY",
       // "FluxListAppend",
@@ -203,6 +255,7 @@ export default {
   },
   computed: {
     ...mapGetters("simulator", [
+      "id",
       "getCurrentScale",
       "GeometryList",
       "drawing",
@@ -215,7 +268,7 @@ export default {
       "gridVisible",
       "geometryData",
       "selectedToken",
-      // "SourcesList",
+      "SourcesList",
       "viewMode",
       "cell",
       "dimensions",
