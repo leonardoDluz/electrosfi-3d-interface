@@ -47,7 +47,8 @@ export default {
     SourcesList: {
       handler() {
         this.renderScene();
-      }
+      },
+      deep: true
     }
   },
   methods: {
@@ -154,7 +155,6 @@ export default {
       });
     },
     loadSources() {
-      console.log("sources: ",this.SourcesList);
       this.SourcesList.map(source => {
         const color = formatColor(source.fill);
         const sourceGeometry = new SphereGeometry(
@@ -227,7 +227,7 @@ export default {
       }
 
       this.SourcesListAppend(newSource);
-      console.log("aa",this.SourcesList);
+      // console.log("aa",this.SourcesList);
     },
     ...mapActions("simulator", [
       "GeometryListAppendAction",

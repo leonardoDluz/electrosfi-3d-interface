@@ -603,10 +603,10 @@ const run3dSimulation = async (state) => {
     simulation_id: id,
     gmsh_mesh_path: id+".msh",
     materials: [
-		{   
-      name: "air",
-			refraction_index: 1
-		}
+      {   
+        name: "air",
+        refraction_index: 1
+      }
     ],
     sources: [
       {
