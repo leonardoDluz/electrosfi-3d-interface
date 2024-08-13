@@ -160,19 +160,19 @@ export default {
         plotOptions
       } = this;
 
-      console.log({
-        title,
-        author,
-        resolution,
-        description,
-        scene_design,
-        scene_simulation,
-        default_material,
-        geometries,
-        sources,
-        coordinates,
-        plotOptions
-      });
+      // console.log({
+      //   title,
+      //   author,
+      //   resolution,
+      //   description,
+      //   scene_design,
+      //   scene_simulation,
+      //   default_material,
+      //   geometries,
+      //   sources,
+      //   coordinates,
+      //   plotOptions
+      // });
 
       api
         .post("/", {
@@ -209,24 +209,24 @@ export default {
         scene_simulation,
         default_material,
         geometries,
-        // sources,
+        sources,
         // coordinates,
         // plotOptions
       } = this;
 
-      console.log({
-        title,
-        author,
-        resolution,
-        description,
-        scene_design,
-        scene_simulation,
-        default_material,
-        geometries,
-        // sources,
-        // coordinates,
-        // plotOptions
-      });
+      // console.log({
+      //   title,
+      //   author,
+      //   resolution,
+      //   description,
+      //   scene_design,
+      //   scene_simulation,
+      //   default_material,
+      //   geometries,
+      //   sources,
+      //   // coordinates,
+      //   // plotOptions
+      // });
 
       simulator3d
         .post("/", {
@@ -235,7 +235,7 @@ export default {
           // coordinates,
           resolution,
           geometries,
-          // sources,
+          sources,
           scene_design,
           scene_simulation,
           author,
@@ -244,7 +244,6 @@ export default {
           // until: plotOptions.until
         })
         .then(({ data: { err, _id } }) => {
-          console.log(_id);
           if (err) {
             Swal.fire({ title: "An error Appears!", text: err });
             return;

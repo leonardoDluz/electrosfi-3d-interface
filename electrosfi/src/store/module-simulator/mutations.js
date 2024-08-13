@@ -1,6 +1,8 @@
 import simulator from "@/services/simulator.js";
 import gmsh from "@/services/gmsh";
 import ngsolve from "@/services/ngsolve";
+import materials from "@/services/materials";
+
 
 import router from '@/router';
 import updateState from './lib/updateState';
@@ -364,6 +366,7 @@ const set3dState = (state, { data }) => {
   try {
     state.is3d = true,
     state.GeometryList = [...data.geometries];
+    state.SourcesList = [...data.sources];
     state.title = data.title;
     state.description = data.description;
     state.scene_design = data.scene_design;
@@ -562,7 +565,7 @@ const runSimulation = (state) => {
 }
 
 const run3dSimulation = async (state) => {
-  const { GeometryList, id  } = state;
+  const { GeometryList, id, SourcesList  } = state;
   const geometryList = GeometryList.map(geometry => {
     const {
       shape,
@@ -585,7 +588,7 @@ const run3dSimulation = async (state) => {
   const request = {
     id: id,
     geometries: geometryList
-  }
+  } 
 
   await gmsh.post("/", request)
     .then(({ data: { error, data } }) => {
@@ -598,23 +601,37 @@ const run3dSimulation = async (state) => {
       state.loading_simulation = false;
       state.showPlotOptions = false
     });
+
+  let materialInfo = [];
+
+  await materials.get("/")
+    .then( ({ data: { error, data } }) => {
+      console.log(data);
+      
+      // data.map((material, i) => {
+      //   materialInfo[i].name = material.title;
+      //   materialInfo[i].refraction_index = material.refraction_index;
+      // })
+      if (error) console.log('error: ', error);
+      // console.log(materialInfo);
+    })
+    .catch((err) => {
+      fireErrorAlert(err.message);
+      state.loading_simulation = false;
+      state.showPlotOptions = false
+    })
   
   const ngsolveRequest = {
     simulation_id: id,
     gmsh_mesh_path: id+".msh",
-    materials: [
-      {   
-        name: "air",
-        refraction_index: 1
+    materials: materialInfo,
+    sources: SourcesList.map(source => {
+      return {
+        wavelength: source.waveLength,
+        wave_width: source.waveWidth,
+        source_position: [source.x, source.y, source.z]
       }
-    ],
-    sources: [
-      {
-        wavelength: 2.0,
-        wave_width: 0.1,
-        source_position: [0.5,0.5,0.5]
-      }
-    ]
+    })
   }
 
   await ngsolve.post("/simulate", ngsolveRequest)

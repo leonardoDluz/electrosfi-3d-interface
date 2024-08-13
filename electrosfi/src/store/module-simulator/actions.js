@@ -338,6 +338,11 @@ const setCurrentGeometricElementMiniCanvas = ({ dispatch, commit }, content) => 
     commit('setCurrentGeometricElementMiniCanvas', content);
     dispatch('updateState');
 }
+
+const set3dState = ({ commit }, content) => {
+    commit('set3dState', content);
+}
+
 const setState = ({ commit }, content) => {
     commit('setState', content);
 }
@@ -446,6 +451,7 @@ export {
     setPropertiesGeometryFill,
     setGeometryFill,
     setCurrentGeometricElementMiniCanvas,
+    set3dState,
     setState,
     updateState,
     clearCanvas,
