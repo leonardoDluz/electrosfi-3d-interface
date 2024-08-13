@@ -48,7 +48,8 @@ route.get('/:materialId', async (req, res) => {
 
     try {
         const findedById = await Material.findById(req.params.materialId);
-        releaseEvents.json(findedById);
+        // releaseEvents.json(findedById);
+        res.json(findedById);
     } catch (err) {
         res.json({ err: err.message });
     }
