@@ -9,6 +9,8 @@
 <script>
 
 import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { mapActions, mapGetters } from 'vuex';
 import BoxGeometry from './geometries/box-geometry';
 import SphereGeometry from './geometries/sphere-geometry';
@@ -57,8 +59,7 @@ export default {
       this.scene.background = new THREE.Color(0xededed)
       this.camera = new THREE.PerspectiveCamera(75, 
         this.$refs.threeDrawing.offsetWidth /
-        this.$refs.threeDrawing.offsetHeight,
-        1, 10);
+        this.$refs.threeDrawing.offsetHeight);
       this.renderer = new THREE.WebGLRenderer();
       this.renderer.shadowMap.enabled = true;
       this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -68,10 +69,17 @@ export default {
       );
       this.$refs.threeDrawing.appendChild(this.renderer.domElement);    
       this.camera.position.z = 10; 
-      this.directionalLight = new THREE.DirectionalLight(0xffffff, 10);
-      // this.directionalLight.position.set(0, 0, 10);
-      this.camera.add(this.directionalLight);
-      this.scene.add(this.camera); 
+      this.directionalLight = new THREE.DirectionalLight(0xffffff, 5);
+      this.directionalLight2 = new THREE.DirectionalLight(0xffffff, 5);
+      this.directionalLight.position.set(9.9, 10, 10.1);
+      this.directionalLight2.position.set(-9.9, -10, -10.1);
+      //this.camera.add(this.directionalLight);
+      this.scene.add(this.directionalLight,this.directionalLight2); 
+      this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+      this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
+      this.transformControls.setMode("scale");
+      this.scene.add(this.transformControls);
+
       this.animate(); 
     },
     clearScene() {
@@ -79,6 +87,14 @@ export default {
         return !(child instanceof THREE.Mesh);
       });
       this.scene.children = filteredSceneChildren;
+    },
+    createTransformControls(){
+      const geometries = this.scene.children.filter(child => {
+        return (child instanceof THREE.Mesh);
+      });
+      geometries.map(geometry => {
+        this.transformControls.attach(geometry.mesh);
+      })
     },
     renderScene() {
       this.clearScene();
