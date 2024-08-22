@@ -55,6 +55,7 @@
 <script>
 import api from "@/services/api";
 import Swal from "sweetalert2";
+import simulator3d from "@/services/simulator3d";
 export default {
   name: "DeleteSimulationModalAndButton",
   data: () => ({
@@ -95,6 +96,24 @@ export default {
         Swal.fire({ title: "An error occurred", text: err.message });
       }
     },
+    delete3dSimulation: function() {
+      try {
+        this.loadingDelete = true;
+        simulator3d
+          .delete(this.currentSimulation)
+          .then(() => {
+            this.currentSimulation = "";
+            this.$emit("deleted");
+          })
+          .then(() => {
+            this.loadingDelete = false;
+            this.deleteModal = false;
+            this.redirectToDashboard();
+          });
+      } catch (err) {
+        Swal.fire({ title: "An error occurred", text: err.message });
+      }
+    },
     deleteProduction: function() {
       try {
         this.loadingDelete = true;
@@ -121,6 +140,7 @@ export default {
         this.deleteProduction();
       } else {
         this.deleteSimulation();
+        this.delete3dSimulation();
       }
     }
   }

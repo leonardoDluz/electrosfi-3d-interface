@@ -12,6 +12,7 @@ export default {
     view_simulation: false,
     loading_simulation: false,
     until: 200,
+    is3d: true,
     GeometryList: [],
     SourcesList: [],
     FluxList: [],
@@ -28,13 +29,14 @@ export default {
         height: 400,
         relationship: {
             x: 25,
-            y: 25
+            y: 25,
+            z: 25
         }
     },
     coordinates: {
         x: 16,
         y: 16,
-        z: 0
+        z: 16
     },
     default_material: 1,
     cell: {
@@ -78,7 +80,7 @@ export default {
     mode: "create",
     shape: "block",
     zoomAction: "In",
-    color: "#000",
+    color: "#303030",
     selectedToken: "",
     selectedSourceToken: "",
     selectedInsideToken: "",

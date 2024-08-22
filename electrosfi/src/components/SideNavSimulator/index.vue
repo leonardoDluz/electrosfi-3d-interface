@@ -109,8 +109,7 @@
 </template>
 <script>
 import draggable from "vuedraggable";
-// import { mapGetters, mapActions } from "vuex";
-import loadStore from "./loadStore";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "SideNavSimulator",
@@ -141,50 +140,30 @@ export default {
       }
     }
   },
-  created() {
-    // const actions = loadStore.actions(this.is3d);
-    // const getters = loadStore.getters(this.is3d);
-
-    // Object.assign(this.$options.methods, actions)
-    // Object.assign(this.$options.computed, getters)
-
-    console.log({
-      methods: this.$options.methods, 
-      computed: this.$options.computed
-    });
-  },
-  mounted() {
-    console.log({
-      GeometryList: this.GeometryList 
-    }); 
-  },
   methods: {
-    // ...mapActions("simulator3d", [
-    //   "setGeometryList",
-    //   "setSelectedTokenAction",
-    //   "GeometryListRemove",
-    //   "setCurrentMode",
-    //   "setCurrentViewMode",
-    //   "setFluxList",
-    //   "OpenModalSettingsFlux",
-    //   "setShowModalSettingsFlux"
-    // ]) ,
-    ...loadStore.mapDynamicActions(),
+    ...mapActions("simulator", [
+      "setGeometryList",
+      "setSelectedTokenAction",
+      "GeometryListRemove",
+      "setCurrentMode",
+      "setCurrentViewMode",
+      "setFluxList",
+      "OpenModalSettingsFlux",
+      "setShowModalSettingsFlux"
+    ]) ,
     onResize: function(width) {
       this.width = width;
     }
   },
   computed: {
-    // ...mapGetters("simulator3d", [
-    //   "GeometryList",
-    //   "selectedToken",
-    //   "mode",
-    //   "SourcesList",
-    //   "viewMode",
-    //   "FluxList"
-    // ]),
-    ...loadStore.mapDynamicGetters(),
-
+    ...mapGetters("simulator", [
+      "GeometryList",
+      "selectedToken",
+      "mode",
+      "SourcesList",
+      "viewMode",
+      "FluxList"
+    ]),
     sourcesListDraggableContent: {
       get() {
         return Object.entries(this.SourcesList)

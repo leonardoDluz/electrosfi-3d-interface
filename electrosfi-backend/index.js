@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const materials = require('./routes/materials');
 const simulations = require('./routes/simulations');
+const simulations3d = require('./routes/simulations3d');
 const mongoose = require('mongoose');
 require('dotenv/config');
 
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 1
 //app.use(bodyParser.urlencoded({limit: '100mb', extended: false}))
 
 app.use('/simulations', simulations);
+app.use('/simulations3d', simulations3d);
 app.use('/materials', materials);
 app.use('/', (req, res) => {
     res.send('Go to materials or simulations');

@@ -1,4 +1,9 @@
 import simulator from "@/services/simulator.js";
+import gmsh from "@/services/gmsh";
+import ngsolve from "@/services/ngsolve";
+import materials from "@/services/materials";
+
+
 import router from '@/router';
 import updateState from './lib/updateState';
 import Swal from 'sweetalert2';
@@ -6,6 +11,7 @@ import {
   setCurrentGeometrySize,
   setCurrentGeometrySizeWidth,
   setCurrentGeometrySizeHeight,
+  setCurrentGeometrySizeDepth,
   setCurrentGeometryRadius,
   setCurrentGeometryRotation
 } from "./lib/geometryDimensions"
@@ -37,6 +43,7 @@ import {
 import {
   setCurrentGeometryPosX,
   setCurrentGeometryPosY,
+  setCurrentGeometryPosZ
 } from "./lib/geometryPositions"
 
 const GeometryListAppend = (state, geometry) => {
@@ -251,10 +258,12 @@ const setLoadingSimulation = (state, content) => {
 const updateSizeAndPosition = (state, content) => {
   var {
     x,
-    y
+    y,
+    z
   } = content;
   setCurrentGeometryPosX(((x + (state.coordinates.x / 2)) * state.dimensions.relationship.x) - (state.currentGeometry.width / 2));
   setCurrentGeometryPosY((((state.coordinates.y / 2) + y) * state.dimensions.relationship.y) - (state.currentGeometry.height / 2));
+  setCurrentGeometryPosZ((((state.coordinates.z / 2) + z) * state.dimensions.relationship.z) - (state.currentGeometry.depth / 2));
 }
 
 const openPlotOptions = (state, content) => {
@@ -350,6 +359,28 @@ const setCurrentGeometricElementMiniCanvas = (state, content) => {
     });
   } catch (err) {
     Swal.fire({ title: 'An Error Appears!', text: err.message })
+  }
+}
+
+const set3dState = (state, { data }) => {
+  try {
+    state.is3d = true,
+    state.GeometryList = [...data.geometries];
+    state.SourcesList = [...data.sources];
+    state.title = data.title;
+    state.description = data.description;
+    state.scene_design = data.scene_design;
+    state.scene_simulation = data.scene_simulation;
+    state.movie = data.movie;
+    state.id = data._id;
+    state.author = data.author;
+  } catch (err) {
+    Swal.fire({
+      title: 'An error appears!',
+      text: err.message
+    });
+    console.error(err.message);
+    router.push('/dashboard');
   }
 }
 
@@ -533,6 +564,89 @@ const runSimulation = (state) => {
     });
 }
 
+const run3dSimulation = async (state) => {
+  const { GeometryList, id, SourcesList  } = state;
+  const geometryList = GeometryList.map(geometry => {
+    const {
+      shape,
+      width,
+      height,
+      depth,
+      x, y, z
+    } = geometry
+
+    return {
+      shape,
+      material: "magnet",
+      width,
+      height,
+      depth,
+      x, y, z
+    }
+  });
+
+  const request = {
+    id: id,
+    geometries: geometryList
+  } 
+
+  await gmsh.post("/", request)
+    .then(({ data: { error, data } }) => {
+      console.log(data);
+
+      if (error) console.log('error: ', error);
+    })
+    .catch((err) => {
+      fireErrorAlert(err.message);
+      state.loading_simulation = false;
+      state.showPlotOptions = false
+    });
+
+  let materialInfo = [];
+
+  await materials.get("/")
+    .then( ({ data: { error, data } }) => {
+      console.log(data);
+      
+      // data.map((material, i) => {
+      //   materialInfo[i].name = material.title;
+      //   materialInfo[i].refraction_index = material.refraction_index;
+      // })
+      if (error) console.log('error: ', error);
+      // console.log(materialInfo);
+    })
+    .catch((err) => {
+      fireErrorAlert(err.message);
+      state.loading_simulation = false;
+      state.showPlotOptions = false
+    })
+  
+  const ngsolveRequest = {
+    simulation_id: id,
+    gmsh_mesh_path: id+".msh",
+    materials: materialInfo,
+    sources: SourcesList.map(source => {
+      return {
+        wavelength: source.waveLength,
+        wave_width: source.waveWidth,
+        source_position: [source.x, source.y, source.z]
+      }
+    })
+  }
+
+  await ngsolve.post("/simulate", ngsolveRequest)
+    .then(({ data: { error, data } }) => {
+      console.log(data);
+
+      if (error) console.log('error: ', error);
+    })
+    .catch((err) => {
+      fireErrorAlert(err.message);
+      state.loading_simulation = false;
+      state.showPlotOptions = false
+    });
+}
+
 const clearCanvas = (state) => {
   state.GeometryList = [];
   state.FluxList = [];
@@ -578,8 +692,10 @@ export {
   setCurrentGeometrySize,
   setCurrentGeometrySizeWidth,
   setCurrentGeometrySizeHeight,
+  setCurrentGeometrySizeDepth,
   setCurrentGeometryPosX,
   setCurrentGeometryPosY,
+  setCurrentGeometryPosZ,
   setCurrentGeometryRadius,
   setMaterialForm,
   setUserMaterials,
@@ -627,9 +743,11 @@ export {
   setSelectedInsideToken,
   setPropertiesGeometryFill,
   setCurrentGeometricElementMiniCanvas,
+  set3dState,
   setState,
   updateState,
   runSimulation,
+  run3dSimulation,
   clearCanvas,
   setAuthor,
   setShowModalSettingsFlux,

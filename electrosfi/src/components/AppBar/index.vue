@@ -14,6 +14,7 @@
         <Notifications />
         <MenuButton />
         <CreateNewSimulation />
+        <CreateNewSimulation :is3d="true"/>
       </v-row>
     </v-container>
   </v-app-bar>

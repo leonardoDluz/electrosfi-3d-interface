@@ -77,7 +77,6 @@ const methods = {
     },
 
     handleTransform: function (e) {
-        console.log(e.target.attrs.rotation);
         if (e.target.attrs.shape == "block") {
             this.setCurrentGeometrySizeWidth(
                 e.target.attrs.width * e.target.attrs.scaleX

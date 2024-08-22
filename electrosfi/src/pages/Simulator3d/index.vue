@@ -7,7 +7,7 @@
       :class="loading ? 'fill-height' : 'simulator-container'"
     >
       <MobileAlert v-if="1 < 1"/>
-      <NavbarDrawing v-if="!loading"/>
+      <NavbarDrawing v-if="!loading" :is3d="true"/>
       <multipane layout="vertical" class="resizer-content" v-if="!loading">
         <div class="multipane-content left">
           <SideNavSimulator :is3d="true"/>
@@ -30,7 +30,10 @@
 
 <script>
 
+import { mapActions } from "vuex";
 import { Multipane, MultipaneResizer } from "vue-multipane" 
+import simulator3d from "@/services/simulator3d";
+import Swal from "sweetalert2";
 
 export default {
   name: "Simulator3d",
@@ -45,9 +48,49 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: true,
     };
   },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    init: async function() {
+      await simulator3d
+        .get(this.$route.params.key)
+        .then(response => {
+          try {
+            this.set3dState(response);
+          } catch (err) {
+            Swal.fire({
+              title: "An error appears in your simulation!",
+              text: err.message
+            });
+          }
+        })
+        .then(() => {
+          setInterval(() => {
+            this.loading = false;
+          }, 500);
+        });
+
+      document.addEventListener("keydown", this.keyPressAction);
+      document.addEventListener("keyup", this.keySolveAction);
+    
+
+      this.setPageInfo();
+    },
+    setPageInfo: function() {
+      document.title = "Simulator - ElectrosFI";
+      document
+        .querySelector('meta[name="description"')
+        ?.setAttribute(
+          "content",
+          "Simulate and edit photonic tools online - ElectrosFI"
+        );
+    },
+    ...mapActions("simulator", ["set3dState"])
+  }
 };
 </script>
 

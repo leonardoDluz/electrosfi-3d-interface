@@ -28,11 +28,9 @@
             min-width: 12%;
             max-width: 20%;
             box-shadow: #00000080 0 0px 5px 0px;
-
             &.center {
                 box-shadow: none !important;
                 height: 100%;
-                margin: 0 8rem;
             }
             &.right {
                 position: fixed;

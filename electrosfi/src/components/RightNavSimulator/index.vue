@@ -32,14 +32,14 @@
     </v-tabs>
     <v-expansion-panels multiple accordion :value="[0, 1, 2, 3, 4]" mandatory>
       <CellProperties />
-      <Dimensions :is3d="true"/>
-      <Position />
+      <Dimensions :is3d="is3d"/>
+      <Position :is3d="is3d"/>
       <FluxParameters />
       <SourceProperties />
       <Material />
       <Fill />
     </v-expansion-panels>
-    <PlotOptions />
+    <PlotOptions :is3d="is3d"/>
   </div>
 </template>
 <script>

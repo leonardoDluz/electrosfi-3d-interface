@@ -22,7 +22,7 @@ export default class TrapezeGeometry {
     };
 
     this.geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-    this.material = new THREE.MeshBasicMaterial({ color: color });
+    this.material = new THREE.MeshPhongMaterial({ color: color });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
   }
 }

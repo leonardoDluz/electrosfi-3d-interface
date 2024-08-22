@@ -35,7 +35,25 @@ const setCurrentGeometryPosY = (state, geometryData) => {
     }
 }
 
+const setCurrentGeometryPosZ = (state, geometryData) => {
+    try {
+        state.GeometryList.forEach((e) => {
+            if (e.token == state.selectedToken) {
+                e.z = geometryData;
+            }
+        });
+        state.SourcesList.forEach((e) => {
+            if (e.token == state.selectedToken) {
+                e.z = geometryData;
+            }
+        });
+    } catch (err) {
+        return { message: err.message }
+    }
+}
+
 export {
     setCurrentGeometryPosX,
     setCurrentGeometryPosY,
+    setCurrentGeometryPosZ
 }

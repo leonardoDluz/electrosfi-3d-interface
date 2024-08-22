@@ -9,7 +9,7 @@
         color="primary"
         @onHover="textButton = 'New Simulation'"
       >
-        <v-icon dark> mdi-plus </v-icon>
+        <v-icon dark> {{ is3d ? "mdi-cube-outline" : "mdi-square-outline" }} </v-icon>
         {{ textButton }}
       </v-btn>
     </template>
@@ -76,13 +76,25 @@
                 </v-btn>
               </v-col>
               <v-col>
-                <v-btn
+                <v-btn v-if="is3d"
+                  x-large
+                  block
+                  :loading="loading"
+                  color="primary"
+                  @click="createNewSimulation3d"
+                >
+                
+                  <v-icon left>mdi-plus</v-icon>
+                  Create Simulation 3d
+                </v-btn>
+                <v-btn v-else
                   x-large
                   block
                   :loading="loading"
                   color="primary"
                   @click="createNewSimulation"
                 >
+                
                   <v-icon left>mdi-plus</v-icon>
                   Create Simulation
                 </v-btn>
@@ -98,8 +110,16 @@
 import api from "@/services/api";
 import Swal from "sweetalert2";
 import { mapGetters } from "vuex";
+import simulator3d from "@/services/simulator3d";
+
 export default {
   name: "CreateNewSimulation",
+  props: {
+    is3d: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: () => ({
     dialog: false,
     title: "Untitled simulation",
@@ -120,7 +140,8 @@ export default {
       "https://satemrj.com.br/site/wp-content/plugins/penci-soledad-amp/assets/images/no-thumb.jpg",
     plotOptions: {
       until: 20
-    }
+    },
+    textButton: ""
   }),
   methods: {
     createNewSimulation: function() {
@@ -138,6 +159,20 @@ export default {
         coordinates,
         plotOptions
       } = this;
+
+      // console.log({
+      //   title,
+      //   author,
+      //   resolution,
+      //   description,
+      //   scene_design,
+      //   scene_simulation,
+      //   default_material,
+      //   geometries,
+      //   sources,
+      //   coordinates,
+      //   plotOptions
+      // });
 
       api
         .post("/", {
@@ -162,6 +197,60 @@ export default {
 
           this.$router.push("/simulator/" + _id);
         });
+    },
+    createNewSimulation3d: function() {
+      this.loading = true;
+      var {
+        title,
+        author,
+        resolution,
+        description,
+        scene_design,
+        scene_simulation,
+        default_material,
+        geometries,
+        sources,
+        // coordinates,
+        // plotOptions
+      } = this;
+
+      // console.log({
+      //   title,
+      //   author,
+      //   resolution,
+      //   description,
+      //   scene_design,
+      //   scene_simulation,
+      //   default_material,
+      //   geometries,
+      //   sources,
+      //   // coordinates,
+      //   // plotOptions
+      // });
+
+      simulator3d
+        .post("/", {
+          title,
+          description,
+          // coordinates,
+          resolution,
+          geometries,
+          sources,
+          scene_design,
+          scene_simulation,
+          author,
+          default_material,
+          // plotOptions,
+          // until: plotOptions.until
+        })
+        .then(({ data: { err, _id } }) => {
+          if (err) {
+            Swal.fire({ title: "An error Appears!", text: err });
+            return;
+          }
+
+          this.$router.push("/simulator3d/" + _id);
+        });
     }
   },
   computed: {
@@ -177,3 +266,9 @@ export default {
   }
 };
 </script>
+<style>
+.CreateNewSimulation {
+  margin-right: 1rem;
+}
+
+</style>

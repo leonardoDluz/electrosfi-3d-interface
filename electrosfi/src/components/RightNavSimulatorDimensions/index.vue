@@ -21,8 +21,8 @@
                 type="number"
               />
             </v-col>
-            <v-col
-              v-if="geometryData.class !== 'source'"
+            <v-col 
+              v-if="geometryData.class !== 'source' && geometryData.shape !== 'sphere'"
               cols="6"
             >
               <v-text-field
@@ -35,7 +35,7 @@
               />
             </v-col>
             <v-col
-              v-if="geometryData.class !== 'source'"
+              v-if="geometryData.class !== 'source' && geometryData.shape !== 'sphere'"
               cols="6"
             >
               <v-text-field
@@ -48,7 +48,7 @@
               />
             </v-col>
             <v-col
-              v-if="geometryData.class !== 'source' && is3d"
+              v-if="geometryData.class !== 'source' && is3d && geometryData.shape !== 'sphere'"
               cols="6"
             >
               <v-text-field
@@ -100,26 +100,35 @@ export default {
     },
     contentGeometrWidth: {
       get() {
-        return Number(this.geometryData.width.toFixed(3)) / this.dimensions.relationship.x;
+        return Number(this.geometryData.width.toFixed(3)) / (!this.is3d ? this.dimensions.relationship.x : 1);
       },
       set(value) {
-        this.setCurrentGeometrySizeWidth(Number(value * this.dimensions.relationship.y));
+        this.setCurrentGeometrySizeWidth(Number(value * (!this.is3d ? this.dimensions.relationship.x : 1)));
       },
     },
     contentGeometrHeight: { 
       get() {
-        return Number(this.geometryData.height.toFixed(3)) / this.dimensions.relationship.y;
+        return Number(this.geometryData.height.toFixed(3)) / (!this.is3d ? this.dimensions.relationship.y : 1);
       },
       set(value) {
-        this.setCurrentGeometrySizeHeight(Number(value * this.dimensions.relationship.y)) ;
+        this.setCurrentGeometrySizeHeight(Number(value * (!this.is3d ? this.dimensions.relationship.y : 1))) ;
       },
     },
+    contentGeometrDepth: {
+      get() {
+        return Number(this.geometryData.depth.toFixed(3) / (!this.is3d ? this.dimensions.relationship.z : 1));
+      },
+      set(value) {
+        this.setCurrentGeometrySizeDepth(Number(value * (!this.is3d ? this.dimensions.relationship.z : 1))) ;
+      }
+    }
   },
   methods: {
     ...mapActions("simulator", [
       "setCurrentGeometryRadius",
       "setCurrentGeometrySizeWidth",
       "setCurrentGeometrySizeHeight",
+      "setCurrentGeometrySizeDepth"
     ]),
   },
 };

@@ -13,6 +13,11 @@ const RunSimulation = ({ dispatch, commit }) => {
     dispatch('updateState');
 }
 
+const Run3dSimulation = ({ dispatch, commit }) => {
+    commit('run3dSimulation');
+    dispatch('updateState');
+}
+
 const SourcesListAppend = ({ dispatch, commit }, content) => {
     commit('SourcesListAppend', content);
     dispatch('updateState');
@@ -90,6 +95,11 @@ const setCurrentGeometrySizeHeight = ({ dispatch, commit }, content) => {
     dispatch('updateState');
 }
 
+const setCurrentGeometrySizeDepth = ({ dispatch, commit }, content) => {
+    commit('setCurrentGeometrySizeDepth', content)
+    dispatch('updateState')
+}
+
 const setCurrentGeometryPosX = ({ dispatch, commit }, content) => {
     commit('setCurrentGeometryPosX', content)
     dispatch('updateState');
@@ -97,6 +107,11 @@ const setCurrentGeometryPosX = ({ dispatch, commit }, content) => {
 
 const setCurrentGeometryPosY = ({ dispatch, commit }, content) => {
     commit('setCurrentGeometryPosY', content)
+    dispatch('updateState');
+}
+
+const setCurrentGeometryPosZ = ({ dispatch, commit }, content) => {
+    commit('setCurrentGeometryPosZ', content)
     dispatch('updateState');
 }
 
@@ -323,6 +338,11 @@ const setCurrentGeometricElementMiniCanvas = ({ dispatch, commit }, content) => 
     commit('setCurrentGeometricElementMiniCanvas', content);
     dispatch('updateState');
 }
+
+const set3dState = ({ commit }, content) => {
+    commit('set3dState', content);
+}
+
 const setState = ({ commit }, content) => {
     commit('setState', content);
 }
@@ -374,8 +394,10 @@ export {
     setCurrentGeometrySize,
     setCurrentGeometrySizeWidth,
     setCurrentGeometrySizeHeight,
+    setCurrentGeometrySizeDepth,
     setCurrentGeometryPosX,
     setCurrentGeometryPosY,
+    setCurrentGeometryPosZ,
     setCurrentGeometryRadius,
     setMaterialForm,
     setUserMaterials,
@@ -390,6 +412,7 @@ export {
     setCurrentGeometryWaveWidth,
     setCurrentGeometryWaveSize,
     RunSimulation,
+    Run3dSimulation,
     setShapeOfCurrentGeometry,
     setViewSimulation,
     setLoadingSimulation,
@@ -428,6 +451,7 @@ export {
     setPropertiesGeometryFill,
     setGeometryFill,
     setCurrentGeometricElementMiniCanvas,
+    set3dState,
     setState,
     updateState,
     clearCanvas,
