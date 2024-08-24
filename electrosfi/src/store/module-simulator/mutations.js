@@ -591,10 +591,10 @@ const run3dSimulation = async (state) => {
   } 
 
   await gmsh.post("/", request)
-    .then(({ data: { error, data } }) => {
+    .then(({ data}) => {
       console.log(data);
 
-      if (error) console.log('error: ', error);
+      // if (error) console.log('error: ', error);
     })
     .catch((err) => {
       fireErrorAlert(err.message);
@@ -605,15 +605,18 @@ const run3dSimulation = async (state) => {
   let materialInfo = [];
 
   await materials.get("/")
-    .then( ({ data: { error, data } }) => {
-      console.log(data);
+  .then(({ data }) => {
+      console.log("materials:", data);
       
-      // data.map((material, i) => {
-      //   materialInfo[i].name = material.title;
-      //   materialInfo[i].refraction_index = material.refraction_index;
-      // })
-      if (error) console.log('error: ', error);
-      // console.log(materialInfo);
+      data.map((material) => {
+        const newMaterial = {
+          name: material.title,
+          refraction_index : material.refraction_index
+        }
+        materialInfo.push(newMaterial);
+      })
+      // if (error) console.log('error: ', error);
+      console.log(materialInfo);
     })
     .catch((err) => {
       fireErrorAlert(err.message);
@@ -627,8 +630,8 @@ const run3dSimulation = async (state) => {
     materials: materialInfo,
     sources: SourcesList.map(source => {
       return {
-        wavelength: source.waveLength,
-        wave_width: source.waveWidth,
+        wavelength: 1,
+        wave_width: 1,
         source_position: [source.x, source.y, source.z]
       }
     })
