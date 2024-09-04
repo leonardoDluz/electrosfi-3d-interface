@@ -643,9 +643,6 @@ const run3dSimulation = async (state) => {
 
       if (error) console.log('error: ', error);
     })
-    .then(() => {
-      updateState()
-    })
     .catch((err) => {
       fireErrorAlert(err.message);
       state.loading_simulation = false;

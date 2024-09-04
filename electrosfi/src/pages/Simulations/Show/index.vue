@@ -2,7 +2,7 @@
   <v-container>
     <Loading :loading="loading" />
     <span v-if="!loading">
-      <SimulationShowHeader :simulation="simulation" :is3d="is3d" />
+      <SimulationShowHeader :simulation="simulation" />
       <SimulationProductionsCard
         @updated="getSimulation"
         :simulation="simulation"
@@ -26,12 +26,6 @@ export default {
     SimulationShowHeader,
     SimulationGraphicCards,
     SimulationProductionsCard
-  },
-  props: {
-    is3d: {
-      type: Boolean,
-      default: false
-    }
   },
   data: () => ({
     simulation: {},

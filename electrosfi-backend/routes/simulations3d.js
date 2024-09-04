@@ -27,7 +27,7 @@ routes.post('/', async (req, res) => {
         default_material,
         // until,
         geometries,
-        sources,
+        // sources,
         // coordinates,
         // plotOptions,
         // productions,

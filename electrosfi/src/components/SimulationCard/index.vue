@@ -16,7 +16,7 @@
               v-on="on"
               v-bind="attrs"
               color="faded"
-              :to="is3d ? '/simulator3d/' : '/simulator/' + simulation._id"
+              :to="`/simulator/${simulation._id}`"
               elevation="0"
             >
               <v-icon left>mdi-pencil</v-icon>
@@ -33,8 +33,7 @@
 export default {
   name: "SimulationCard",
   props: {
-    simulation: { type: Object, default: Object },
-    is3d: { type: Boolean, default: false}
+    simulation: { type: Object, default: Object }
   }
 };
 </script>
