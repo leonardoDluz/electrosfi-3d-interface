@@ -27,7 +27,7 @@
               <v-btn
                 class="ma-1"
                 x-small
-                :to="`/simulator/${simulation._id}`"
+                :to="is3d? '/simulator3d/' : '/simulator/' +  simulation._id"
                 elevation="0"
                 color="secondary"
               >
@@ -64,6 +64,7 @@ export default {
     showShareModal: false
   }),
   props: {
+    is3d: { type: Boolean, default: false},
     simulation: { type: Object, default: null }
   },
   methods: {

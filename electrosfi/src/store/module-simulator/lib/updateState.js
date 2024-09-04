@@ -44,7 +44,7 @@ const updateState = (state) => {
     productions
   };
 
-  if (state.is3d) {
+  if (!state.is3d) {
     api.patch(router.currentRoute.params.key, params).then(() => {
       state.sincronizado = true;
     });

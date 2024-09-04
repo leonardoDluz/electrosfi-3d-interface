@@ -22,7 +22,7 @@
               v-for="simulation in simulations"
               :key="simulation.id"
             >
-              <SimulationCard :simulation="simulation" />
+              <SimulationCard :simulation="simulation"/>
             </v-col>
           </v-row>
         </div>
@@ -47,7 +47,7 @@
               v-for="simulation in simulations3d"
               :key="simulation.id"
             >
-              <SimulationCard :simulation="simulation" />
+              <SimulationCard :simulation="simulation" :is3d="true"/>
             </v-col>
           </v-row>
         </div>
