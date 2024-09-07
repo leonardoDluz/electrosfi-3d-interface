@@ -565,6 +565,9 @@ const runSimulation = (state) => {
 }
 
 const run3dSimulation = async (state) => {
+  state.sincronizado = false;
+  state.loading_simulation = true;
+
   const { GeometryList, id, SourcesList  } = state;
   const geometryList = GeometryList.map(geometry => {
     const {
@@ -585,69 +588,54 @@ const run3dSimulation = async (state) => {
     }
   });
 
-  const request = {
-    id: id,
-    geometries: geometryList
-  } 
-
-  await gmsh.post("/", request)
-    .then(({ data}) => {
-      console.log(data);
-
-      // if (error) console.log('error: ', error);
-    })
-    .catch((err) => {
-      fireErrorAlert(err.message);
-      state.loading_simulation = false;
-      state.showPlotOptions = false
-    });
-
-  let materialInfo = [];
-
-  await materials.get("/")
-  .then(({ data }) => {
-      console.log("materials:", data);
-      
-      data.map((material) => {
-        const newMaterial = {
-          name: material.title,
-          refraction_index : material.refraction_index
-        }
-        materialInfo.push(newMaterial);
-      })
-      // if (error) console.log('error: ', error);
-      console.log(materialInfo);
-    })
-    .catch((err) => {
-      fireErrorAlert(err.message);
-      state.loading_simulation = false;
-      state.showPlotOptions = false
-    })
+  try {
+    const gmshRequestData = {
+      id: id,
+      geometries: geometryList
+    } 
   
-  const ngsolveRequest = {
-    simulation_id: id,
-    gmsh_mesh_path: id+".msh",
-    materials: materialInfo,
-    sources: SourcesList.map(source => {
-      return {
-        wavelength: 1,
-        wave_width: 1,
-        source_position: [source.x, source.y, source.z]
+    const gmshRequest = await gmsh.post("/", gmshRequestData);
+    console.log(gmshRequest.data);
+
+    let materialInfo = [];
+
+    const materialsRequest = await materials.get("/")
+    console.log("materials:", materialsRequest.data);
+    
+    materialsRequest.data.map((material) => {
+      const newMaterial = {
+        name: material.title,
+        refraction_index : material.refraction_index
       }
+      materialInfo.push(newMaterial);
     })
+    console.log(materialInfo);
+
+    const ngsolveRequestData = {
+      simulation_id: id,
+      gmsh_mesh_path: id+".msh",
+      materials: materialInfo,
+      sources: SourcesList.map(source => {
+        return {
+          wavelength: 1,
+          wave_width: 1,
+          source_position: [source.x, source.y, source.z]
+        }
+      })
+    }
+  
+    const ngsolveRequest = await ngsolve.post("/simulate", ngsolveRequestData);
+    console.log(ngsolveRequest.data);
+
+    if (ngsolveRequest.error) console.log('error: ', ngsolveRequest.error);
+
+    state.view_simulation = true;
+    state.loading_simulation = false;
+  } catch (err) {
+    fireErrorAlert(err.message);
+    state.loading_simulation = false;
+    state.showPlotOptions = false
   }
-
-  await ngsolve.post("/simulate", ngsolveRequest)
-    .then(({ data: { error, data } }) => {
-      console.log(data);
-
-      if (error) console.log('error: ', error);
-    })
-    .catch((err) => {
-      fireErrorAlert(err.message);
-      state.loading_simulation = false;
-      state.showPlotOptions = false
-    });
 }
 
 const clearCanvas = (state) => {

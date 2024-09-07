@@ -30,7 +30,7 @@
                 dense
                 large
                 target="_blank"
-                :to="`/simulations/${this.id}`"
+                :to="is3d ? '/simulations3d/' : '/simulations/' + this.id"
                 >View Results</v-btn
               >
             </v-col>
@@ -44,6 +44,12 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "PreviewSimulationModal",
+  props: {
+    is3d: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     ...mapActions("simulator", ["setViewSimulation", "openPlotOptions"]),
     redirectToResults() {
