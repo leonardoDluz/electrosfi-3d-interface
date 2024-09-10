@@ -30,7 +30,7 @@
                 dense
                 large
                 target="_blank"
-                :to="is3d ? '/simulations3d/' : '/simulations/' + this.id"
+                :to="(is3d ? '/simulations3d/' : '/simulations/') + this.id"
                 >View Results</v-btn
               >
             </v-col>

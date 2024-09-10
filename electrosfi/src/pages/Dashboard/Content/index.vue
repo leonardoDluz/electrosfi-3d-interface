@@ -1,6 +1,6 @@
 <template>
   <v-container id="simulations_container" class="mt-10">
-    <Loading :loading="simulations.length === 0" />
+    <Loading :loading="simulations.length === 0 || simulations3d.length === 0" />
     <span v-if="!loading">
       <v-col>  
         <v-row v-if="simulations.length >= 1">
@@ -47,7 +47,7 @@
               v-for="simulation in simulations3d"
               :key="simulation.id"
             >
-              <SimulationCard :simulation="simulation" />
+              <SimulationCard :simulation="simulation" :is3d="true" />
             </v-col>
           </v-row>
         </div>
@@ -64,7 +64,7 @@ import SimulationCard from "@/components/SimulationCard";
 import { mapGetters } from "vuex";
 
 import Loading from "@/components/Loading";
-import simulator3d from "../../services/simulator3d";
+import simulator3d from "@/services/simulator3d";
 
 export default {
   name: "Simulations",

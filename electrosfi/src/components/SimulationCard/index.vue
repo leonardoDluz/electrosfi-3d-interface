@@ -1,6 +1,6 @@
 <template>
   <v-card
-    :to="`/simulations/${simulation._id}`"
+    :to="(is3d ? '/simulations3d/' : '/simulations/') + simulation._id"
     class="cardSimulation"
     rounded
     max-height="350"
@@ -16,7 +16,7 @@
               v-on="on"
               v-bind="attrs"
               color="faded"
-              :to="`/simulator/${simulation._id}`"
+              :to="(is3d ? '/simulator3d/' : '/simulator/') + simulation._id"
               elevation="0"
             >
               <v-icon left>mdi-pencil</v-icon>
@@ -33,6 +33,7 @@
 export default {
   name: "SimulationCard",
   props: {
+    is3d: { type: Boolean, default: false },
     simulation: { type: Object, default: Object }
   }
 };

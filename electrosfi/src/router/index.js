@@ -35,7 +35,7 @@ const routes = [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: () => import('../pages/Simulations')
+        component: () => import('../pages/Dashboard/Content')
       },
       {
         path: '/materials',
@@ -46,6 +46,14 @@ const routes = [
         path: '/simulations/:key',
         name: 'Simulation Productions',
         component: () => import('../pages/Simulations/Show'),
+        meta: {
+          requiresAuth: false
+        },
+      },
+      {
+        path: '/simulations3d/:key',
+        name: '3D Simulation Productions',
+        component: () => import('../pages/Simulations3D/Show'),
         meta: {
           requiresAuth: false
         },
@@ -83,8 +91,13 @@ const routes = [
     children: [
       {
         path: '/details/:simulationID/:productionID',
-        name: 'Details',
+        name: '3D Details',
         component: () => import('../pages/Simulations/Detail')
+      },
+      {
+        path: '/details3d/:simulationID/:productionID',
+        name: 'Details',
+        component: () => import('../pages/Simulations3D/Detail')
       },
     ],
     meta: {
