@@ -9,10 +9,10 @@ module.exports = mongoose.model('Simulation3d', new mongoose.Schema({
         type: String,
         required: true
     },
-    resolution: {
-        type: Number,
-        required: true
-    },
+    // resolution: {
+    //     type: Number,
+    //     required: true
+    // },
     // productions: [
     //     {
     //         create_date: {

@@ -386,6 +386,7 @@ const set3dState = (state, { data }) => {
 
 const setState = (state, { data }) => {
   try {
+    state.is3d = false;
     state.GeometryList = [...data.geometries];
     state.FluxList = [...data.flux];
     state.SourcesList = [...data.sources];

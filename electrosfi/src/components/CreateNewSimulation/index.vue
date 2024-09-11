@@ -143,6 +143,10 @@ export default {
     },
     textButton: ""
   }),
+  mounted() {
+    console.log(this.author);
+    
+  },
   methods: {
     createNewSimulation: function() {
       this.loading = true;
