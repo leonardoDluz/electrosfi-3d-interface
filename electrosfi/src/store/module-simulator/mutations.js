@@ -45,6 +45,7 @@ import {
   setCurrentGeometryPosY,
   setCurrentGeometryPosZ
 } from "./lib/geometryPositions"
+import md5 from "js-md5";
 
 const GeometryListAppend = (state, geometry) => {
   state.GeometryList.push(geometry)
@@ -569,7 +570,7 @@ const run3dSimulation = async (state) => {
   state.sincronizado = false;
   state.loading_simulation = true;
 
-  const { GeometryList, id, SourcesList  } = state;
+  const { GeometryList, id, SourcesList, productions  } = state;
   const geometryList = GeometryList.map(geometry => {
     const {
       shape,
@@ -601,7 +602,6 @@ const run3dSimulation = async (state) => {
     let materialInfo = [];
 
     const materialsRequest = await materials.get("/")
-    console.log("materials:", materialsRequest.data);
     
     materialsRequest.data.map((material) => {
       const newMaterial = {
@@ -610,10 +610,13 @@ const run3dSimulation = async (state) => {
       }
       materialInfo.push(newMaterial);
     })
-    console.log(materialInfo);
+
+    const productionId = md5.hex(Date.now().toString());
+    productions.push({ content: productionId})
 
     const ngsolveRequestData = {
       simulation_id: id,
+      production_id: productionId,
       gmsh_mesh_path: id+".msh",
       materials: materialInfo,
       sources: SourcesList.map(source => {
@@ -626,12 +629,13 @@ const run3dSimulation = async (state) => {
     }
   
     const ngsolveRequest = await ngsolve.post("/simulate", ngsolveRequestData);
-    console.log(ngsolveRequest.data);
 
     if (ngsolveRequest.error) console.log('error: ', ngsolveRequest.error);
 
     state.view_simulation = true;
     state.loading_simulation = false;
+
+    updateState(state);
   } catch (err) {
     fireErrorAlert(err.message);
     state.loading_simulation = false;

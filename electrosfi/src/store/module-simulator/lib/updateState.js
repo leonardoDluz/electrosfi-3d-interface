@@ -2,7 +2,7 @@ import api from "@/services/api";
 import simulator3d from "@/services/simulator3d";
 import router from '@/router'
 
-const updateState2d = (state) => {
+const updateState2d = async (state) => {
   if (!(location.href.split('/simulator/').length > 1)) return;
   state.sincronizado = false;
   var {
@@ -43,12 +43,12 @@ const updateState2d = (state) => {
     plotOptions,
     productions
   };
-  api.patch(router.currentRoute.params.key, params).then(() => {
+  await api.patch(router.currentRoute.params.key, params).then(() => {
     state.sincronizado = true;
   });
 }
 
-const updateState3d = (state) => {
+const updateState3d = async (state) => {
   if (!(location.href.split('/simulator3d/').length > 1)) return;
   state.sincronizado = false;
 
@@ -58,6 +58,7 @@ const updateState3d = (state) => {
     description,
     GeometryList,
     SourcesList,
+    productions
   } = state;
 
   const params = {
@@ -67,19 +68,23 @@ const updateState3d = (state) => {
     _id: router.currentRoute.params.key,
     geometries: GeometryList,
     sources: SourcesList,
+    productions
   }
 
-  simulator3d.patch(router.currentRoute.params.key, params).then(() => {
+  console.log(params);
+  
+
+  await simulator3d.patch(router.currentRoute.params.key, params).then(() => {
     state.sincronizado = true;
   })
 }
 
-const updateState = (state) => {
+const updateState = async (state) => {
   if (state.is3d) {
-    updateState3d(state);
+    await updateState3d(state);
     return;
   }
-  updateState2d(state);
+  await updateState2d(state);
 }
 
 export default updateState;

@@ -13,17 +13,14 @@ module.exports = mongoose.model('Simulation3d', new mongoose.Schema({
     //     type: Number,
     //     required: true
     // },
-    // productions: [
-    //     {
-    //         create_date: {
-    //             type: Date,
-    //             default: Date.now
-    //         },
-    //         content:{
-    //             type:Object
-    //         }
-    //     }],
     // charts: [Object],
+    productions: [
+        {
+            create_date: {
+                type: Date,
+                default: Date.now
+            },
+        }],
     scene_design: {
         type: String,
         required: true
@@ -83,7 +80,7 @@ module.exports = mongoose.model('Simulation3d', new mongoose.Schema({
                 type: Number,
                 required: true
             },
-            sourcePosition: [Number]
+            // sourcePosition: [Number]
             // component: {
             //     type: String,
             //     required: true
@@ -118,14 +115,18 @@ module.exports = mongoose.model('Simulation3d', new mongoose.Schema({
             //     type: String,
             //     required: true
             // },
-            // x: {
-            //     type: Number,
-            //     required: true
-            // },
-            // y: {
-            //     type: Number,
-            //     required: true
-            // },
+            x: {
+                type: Number,
+                required: true
+            },
+            y: {
+                type: Number,
+                required: true
+            },
+            z: {
+                type: Number,
+                required: true
+            },
             // posX: {
             //     type: Number,
             //     required: true
