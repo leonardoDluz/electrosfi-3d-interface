@@ -615,8 +615,8 @@ const run3dSimulation = async (state) => {
 
     const production = md5.hex(Date.now().toString());
     const productionData = { 
-      geometries: GeometryList,
-      sources: SourcesList,
+      GeometryList,
+      SourcesList,
       content: production
     }
     console.log(productionData);
@@ -625,7 +625,7 @@ const run3dSimulation = async (state) => {
 
     const ngsolveRequestData = {
       simulation_id: id,
-      production_id: production,
+      production: production,
       gmsh_mesh_path: id+".msh",
       materials: materialInfo,
       sources: SourcesList.map(source => {

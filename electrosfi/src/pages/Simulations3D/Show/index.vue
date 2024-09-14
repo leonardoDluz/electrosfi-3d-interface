@@ -6,6 +6,7 @@
         <SimulationProductionsCard
           @updated="getSimulation"
           :simulation="simulation"
+          :is3d="true"
         />
         <SimulationGraphicCards :simulation="simulation" />
       </span>

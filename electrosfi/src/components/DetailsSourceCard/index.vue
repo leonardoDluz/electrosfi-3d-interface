@@ -30,7 +30,8 @@
 export default {
   name: "DetailsSourceCard",
   props: {
-    source: { type: Object, default: null }
+    source: { type: Object, default: null },
+    is3d: { type: Boolean, default: false }
   }
 };
 </script>

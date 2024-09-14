@@ -13,6 +13,7 @@
         >
         <v-chip class="ma-1" small>Position X: {{ geometry.x }}</v-chip>
         <v-chip class="ma-1" small>Position Y: {{ geometry.y }}</v-chip>
+        <v-chip v-if="is3d" class="ma-1" small>Position Z: {{ geometry.z }}</v-chip>
       </div>
     </v-card-text>
   </v-card>
@@ -21,7 +22,8 @@
 export default {
   namme: "DetailsGeometryCard",
   props: {
-    geometry: { type: Object, default: null }
+    geometry: { type: Object, default: null },
+    is3d: { type: Boolean, default: false }
   }
 };
 </script>

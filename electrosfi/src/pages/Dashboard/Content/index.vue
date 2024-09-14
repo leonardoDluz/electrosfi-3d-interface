@@ -1,6 +1,6 @@
 <template>
   <v-container id="simulations_container" class="mt-10">
-    <Loading :loading="simulations.length === 0 || simulations3d.length === 0" />
+    <Loading :loading="simulations.length === 0 && simulations3d.length === 0" />
     <span v-if="!loading">
       <v-col>  
         <v-row v-if="simulations.length >= 1">
