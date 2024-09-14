@@ -16,6 +16,8 @@ module.exports = mongoose.model('Simulation3d', new mongoose.Schema({
     // charts: [Object],
     productions: [
         {
+            geometries: [Object],
+            sources: [Object],
             create_date: {
                 type: Date,
                 default: Date.now

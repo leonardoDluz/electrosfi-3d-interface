@@ -375,6 +375,7 @@ const set3dState = (state, { data }) => {
     state.movie = data.movie;
     state.id = data._id;
     state.author = data.author;
+    state.productions = data.productions;
   } catch (err) {
     Swal.fire({
       title: 'An error appears!',
@@ -611,12 +612,20 @@ const run3dSimulation = async (state) => {
       materialInfo.push(newMaterial);
     })
 
-    const productionId = md5.hex(Date.now().toString());
-    productions.push({ content: productionId})
+
+    const production = md5.hex(Date.now().toString());
+    const productionData = { 
+      geometries: GeometryList,
+      sources: SourcesList,
+      content: production
+    }
+    console.log(productionData);
+    
+    productions.push(productionData);
 
     const ngsolveRequestData = {
       simulation_id: id,
-      production_id: productionId,
+      production_id: production,
       gmsh_mesh_path: id+".msh",
       materials: materialInfo,
       sources: SourcesList.map(source => {
