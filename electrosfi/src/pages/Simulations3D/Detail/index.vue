@@ -9,14 +9,12 @@
     <v-divider class="my-2"></v-divider>
     <p class="text-caption mb-2">Graphic Results</p>
     <v-row>
-      <v-col cols="12" md="6">
         <Details3DChartCard :simulationType="'2d'"/>
-      </v-col>
-      <v-col cols="12" md="6">
-        <Details3DChartCard :simulationType="'3d'"/>
-      </v-col>
     </v-row>
     <v-row>
+      <Details3DChartCard :simulationType="'3d'"/>
+    </v-row>
+      <v-row>
       <v-col>
         <p class="text-caption mb-0">Sources</p>
         <DetailsSourceCard

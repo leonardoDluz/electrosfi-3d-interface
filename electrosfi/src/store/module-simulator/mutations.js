@@ -630,8 +630,8 @@ const run3dSimulation = async (state) => {
       materials: materialInfo,
       sources: SourcesList.map(source => {
         return {
-          wavelength: 1,
-          wave_width: 1,
+          wavelength: 1.55,
+          wave_width: 1.55,
           source_position: [source.x, source.y, source.z]
         }
       })

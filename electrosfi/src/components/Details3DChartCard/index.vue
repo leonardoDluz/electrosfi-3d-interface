@@ -1,6 +1,6 @@
 <template>
-  <v-card >
-    <v-img
+  <v-card class="simulation-image">
+    <v-img 
       :src="imageUrl"
     />
   </v-card>
@@ -37,3 +37,10 @@ export default {
   },
 };
 </script>
+<style>
+
+.simulation-image {
+  padding: 2.5rem;
+  margin: 1rem 0;
+}
+</style>
