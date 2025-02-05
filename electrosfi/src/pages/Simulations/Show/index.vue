@@ -13,7 +13,6 @@
 </template>
 <script>
 import api from "@/services/api.js";
-import simulator3d from "@/services/simulator3d";
 import Loading from "@/components/Loading";
 import Swal from "sweetalert2";
 import SimulationGraphicCards from "@/components/SimulationGraphicCards";
@@ -60,31 +59,12 @@ export default {
           "Simulate and edit photonic tools online - ElectrosFI"
         );
     },
-    searchSimulation: async that => {
-      await api
-        .get("/" + that.$route.params.key)
-        .then(response => {
-          that.simulation = response.data;
-        })
-        .then(async () => {
-          that.loading = false;
-        });
-    },
-    search3dSimulation: async that => {
-      await simulator3d
-        .get("/" + that.$route.params.key)
-        .then(response => {
-          that.simulation = response.data;
-        })
-        .then(async () => {
-          that.loading = false;
-        });
-    },
     getSimulation: async function() {
       try {
-        await this.searchSimulation(this);
-        await this.search3dSimulation(this);
-      } catch (err) {
+        const response = await api.get("/" + this.$route.params.key)
+        this.simulation = response.data;
+        this.loading = false;
+    } catch (err) {
         Swal.fire({ title: "An Error Appears", text: err.message });
         this.$router.push("/dashboard");
       }

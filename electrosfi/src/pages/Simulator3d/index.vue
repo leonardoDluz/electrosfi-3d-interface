@@ -24,6 +24,8 @@
         </div>
 
       </multipane>
+      <LoadingModal/>
+      <PreviewSimulationModal :is3d="true"/>
     </div>
   </span>
 </template>
@@ -43,6 +45,8 @@ export default {
     SideNavSimulator: () => import("@/components/SideNavSimulator"),
     RightNavSimulator: () => import("@/components/RightNavSimulator"),
     ThreeDrawing: () => import("@/components/ThreeDrawing"),
+    LoadingModal: () => import("@/components/LoadingModal"),
+    PreviewSimulationModal: () => import("@/components/PreviewSimulationModal"),
     multipane: Multipane,
     "multipane-resizer": MultipaneResizer,
   },

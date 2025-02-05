@@ -45,6 +45,7 @@ import {
   setCurrentGeometryPosY,
   setCurrentGeometryPosZ
 } from "./lib/geometryPositions"
+import md5 from "js-md5";
 
 const GeometryListAppend = (state, geometry) => {
   state.GeometryList.push(geometry)
@@ -374,6 +375,7 @@ const set3dState = (state, { data }) => {
     state.movie = data.movie;
     state.id = data._id;
     state.author = data.author;
+    state.productions = data.productions;
   } catch (err) {
     Swal.fire({
       title: 'An error appears!',
@@ -386,6 +388,7 @@ const set3dState = (state, { data }) => {
 
 const setState = (state, { data }) => {
   try {
+    state.is3d = false;
     state.GeometryList = [...data.geometries];
     state.FluxList = [...data.flux];
     state.SourcesList = [...data.sources];
@@ -565,7 +568,10 @@ const runSimulation = (state) => {
 }
 
 const run3dSimulation = async (state) => {
-  const { GeometryList, id, SourcesList  } = state;
+  state.sincronizado = false;
+  state.loading_simulation = true;
+
+  const { GeometryList, id, SourcesList, productions  } = state;
   const geometryList = GeometryList.map(geometry => {
     const {
       shape,
@@ -585,66 +591,65 @@ const run3dSimulation = async (state) => {
     }
   });
 
-  const request = {
-    id: id,
-    geometries: geometryList
-  } 
-
-  await gmsh.post("/", request)
-    .then(({ data: { error, data } }) => {
-      console.log(data);
-
-      if (error) console.log('error: ', error);
-    })
-    .catch((err) => {
-      fireErrorAlert(err.message);
-      state.loading_simulation = false;
-      state.showPlotOptions = false
-    });
-
-  let materialInfo = [];
-
-  await materials.get("/")
-    .then( ({ data: { error, data } }) => {
-      console.log(data);
-      
-      // data.map((material, i) => {
-      //   materialInfo[i].name = material.title;
-      //   materialInfo[i].refraction_index = material.refraction_index;
-      // })
-      if (error) console.log('error: ', error);
-      // console.log(materialInfo);
-    })
-    .catch((err) => {
-      fireErrorAlert(err.message);
-      state.loading_simulation = false;
-      state.showPlotOptions = false
-    })
+  try {
+    const gmshRequestData = {
+      id: id,
+      geometries: geometryList
+    } 
   
-  const ngsolveRequest = {
-    simulation_id: id,
-    gmsh_mesh_path: id+".msh",
-    materials: materialInfo,
-    sources: SourcesList.map(source => {
-      return {
-        wavelength: source.waveLength,
-        wave_width: source.waveWidth,
-        source_position: [source.x, source.y, source.z]
+    const gmshRequest = await gmsh.post("/", gmshRequestData);
+    console.log(gmshRequest.data);
+
+    let materialInfo = [];
+
+    const materialsRequest = await materials.get("/")
+    
+    materialsRequest.data.map((material) => {
+      const newMaterial = {
+        name: material.title,
+        refraction_index : material.refraction_index
       }
+      materialInfo.push(newMaterial);
     })
+
+
+    const production = md5.hex(Date.now().toString());
+    const productionData = { 
+      GeometryList,
+      SourcesList,
+      content: production
+    }
+    console.log(productionData);
+    
+    productions.push(productionData);
+
+    const ngsolveRequestData = {
+      simulation_id: id,
+      production: production,
+      gmsh_mesh_path: id+".msh",
+      materials: materialInfo,
+      sources: SourcesList.map(source => {
+        return {
+          wavelength: 1.55,
+          wave_width: 1.55,
+          source_position: [source.x, source.y, source.z]
+        }
+      })
+    }
+  
+    const ngsolveRequest = await ngsolve.post("/simulate", ngsolveRequestData);
+
+    if (ngsolveRequest.error) console.log('error: ', ngsolveRequest.error);
+
+    state.view_simulation = true;
+    state.loading_simulation = false;
+
+    updateState(state);
+  } catch (err) {
+    fireErrorAlert(err.message);
+    state.loading_simulation = false;
+    state.showPlotOptions = false
   }
-
-  await ngsolve.post("/simulate", ngsolveRequest)
-    .then(({ data: { error, data } }) => {
-      console.log(data);
-
-      if (error) console.log('error: ', error);
-    })
-    .catch((err) => {
-      fireErrorAlert(err.message);
-      state.loading_simulation = false;
-      state.showPlotOptions = false
-    });
 }
 
 const clearCanvas = (state) => {

@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
     <h1 class="text-h2 text-center headerText">
-      <strong>{{ production.title }} </strong>
+      <strong>{{ is3d ? simulation.title : production.title }} </strong>
     </h1>
     <v-row justify="center" class="ma-2">
       <v-chip class="ma-2" color="" v-if="create_date">
@@ -14,8 +14,8 @@
       </v-chip>
       <v-chip class="ma-2" color="">
         {{
-          production.GeometryList.lenght > 0
-            ? production.GeometryList.lenght
+          production.GeometryList.length > 0
+            ? production.GeometryList.length
             : 0
         }}
         Geometries
@@ -29,10 +29,10 @@
       <v-col cols="12" md="6">
         <p class="text-caption mb-0">Description:</p>
         <p class="mt-0 text-body">
-          {{ production.description }}
+          {{ is3d ? simulation.description : production.description }}
         </p>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="6" v-if="!is3d">
         <p class="text-caption mb-0">Properties:</p>
         <p class="text-body">
           <strong>Cell Size:</strong>
@@ -55,7 +55,9 @@ export default {
   name: "DetailsProductHeader",
   props: {
     production: { type: Object, default: null },
-    create_date: { type: String, default: null }
+    simulation: { type: Object, default: null },
+    create_date: { type: String, default: null },
+    is3d: { type: Boolean, default: false }
   },
   methods: {
     formatDate

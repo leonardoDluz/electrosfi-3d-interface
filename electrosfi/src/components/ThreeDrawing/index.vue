@@ -51,7 +51,7 @@ export default {
         this.renderScene();
       },
       deep: true
-    }
+    },
   },
   methods: {
     init() {   
@@ -100,6 +100,7 @@ export default {
       this.clearScene();
       this.loadGeometries();
       this.loadSources();
+      this.updateState();
     },
     animate() {
       requestAnimationFrame(this.animate);

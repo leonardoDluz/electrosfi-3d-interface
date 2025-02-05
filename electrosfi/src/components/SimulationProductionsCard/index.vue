@@ -7,8 +7,8 @@
       class="mt-4"
     >
       <v-card-text>
-        <h1 class="text-h6">{{ content.title }}</h1>
-        <p>{{ content.description }}</p>
+        <h1 class="text-h6">{{ simulation.title }}</h1>
+        <p>{{ simulation.description }}</p>
 
         <div class="text--primary"></div>
       </v-card-text>
@@ -32,7 +32,10 @@
               :productionID="_id"
             />
             <v-btn
-              :to="`/details/${simulation._id}/${_id}/`"
+              :to="is3d ?
+              `/datails3d/${simulation._id}/${content}/` :
+              `/details/${simulation._id}/${_id}/` 
+              "
               color="primary"
               class="ma-2"
               x-small
@@ -53,7 +56,8 @@ import DeleteSimulationModalAndButton from "@/components/DeleteSimulationModalAn
 export default {
   name: "SimualtionProductionsCard",
   props: {
-    simulation: { type: Object, default: Object }
+    simulation: { type: Object, default: Object },
+    is3d: { type: Boolean, default: false }
   },
   methods: {
     formatDate,
@@ -64,7 +68,13 @@ export default {
   mounted() {},
   computed: {
     remasteredProductions() {
-      return this.simulation.productions.map(e => ({
+      const productions = this.simulation.productions;
+
+      if (this.is3d) {
+        return productions;
+      }
+
+      return productions.map(e => ({
         ...e,
         content: JSON.parse(e.content)
       })).reverse();

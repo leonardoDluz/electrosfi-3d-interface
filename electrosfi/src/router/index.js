@@ -35,7 +35,7 @@ const routes = [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: () => import('../pages/Simulations')
+        component: () => import('../pages/Dashboard/Content')
       },
       {
         path: '/materials',
@@ -46,6 +46,14 @@ const routes = [
         path: '/simulations/:key',
         name: 'Simulation Productions',
         component: () => import('../pages/Simulations/Show'),
+        meta: {
+          requiresAuth: false
+        },
+      },
+      {
+        path: '/simulations3d/:key',
+        name: '3D Simulation Productions',
+        component: () => import('../pages/Simulations3D/Show'),
         meta: {
           requiresAuth: false
         },
@@ -86,12 +94,29 @@ const routes = [
         name: 'Details',
         component: () => import('../pages/Simulations/Detail')
       },
+      
     ],
     meta: {
       requiresAuth: false,
       showToAll: true
     }
   },
+  {
+    path: '/details3d',
+    name: 'Production3dDetails',
+    component: () => import('../pages/Dashboard'),
+    children: [
+      {
+        path: '/datails3d/:simulationID/:productionID',
+        name: '3D Details',
+        component: () => import('../pages/Simulations3D/Detail')
+      },
+    ],
+    meta: {
+      requiresAuth: false,
+      showToAll: true
+    }
+  }
 ]
 
 const router = new VueRouter({

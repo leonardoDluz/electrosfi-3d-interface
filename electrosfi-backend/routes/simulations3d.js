@@ -25,12 +25,12 @@ routes.post('/', async (req, res) => {
         scene_design,
         scene_simulation,
         default_material,
-        // until,
         geometries,
-        // sources,
+        sources,
+        productions,
+        // until,
         // coordinates,
         // plotOptions,
-        // productions,
         // flux,
         // charts
     } = req.body;
@@ -45,10 +45,10 @@ routes.post('/', async (req, res) => {
         default_material,
         // until,
         geometries,
-        // sources,
+        sources,
         // coordinates,
         // plotOptions,
-        // productions,
+        productions,
         // flux,
         // charts
     });
@@ -164,10 +164,10 @@ routes.patch('/:simulationId', async (req, res) => {
         default_material,
         // until,
         geometries,
-        // sources,
+        sources,
         // coordinates,
         // plotOptions,
-        // productions,
+        productions,
         // flux,
         // charts
     } = req.body;
@@ -188,10 +188,10 @@ routes.patch('/:simulationId', async (req, res) => {
                 default_material,
                 // until,
                 geometries,
-                // sources,
+                sources,
                 // coordinates,
                 // plotOptions,
-                // productions,
+                productions,
                 // flux,
                 // charts
             }
@@ -209,10 +209,10 @@ routes.patch('/:simulationId', async (req, res) => {
                 default_material,
                 // until,
                 geometries,
-                // sources,
+                sources,
                 // coordinates,
                 // plotOptions,
-                // productions,
+                productions,
                 // flux,
                 // charts
             }
